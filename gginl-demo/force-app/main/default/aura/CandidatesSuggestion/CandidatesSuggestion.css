@@ -1,0 +1,14 @@
+.THIS {
+    background: var(--lwc-colorBackground,rgb(243, 242, 242));
+    background: #fff;
+    padding: 10px;
+}
+
+.THIS .slds-icon_container {
+    margin-right: 10px;
+}
+
+.THIS .forceReadOnlyRelatedListStencil {
+    list-style: none;
+    border-bottom: 1px solid var(--lwc-colorBorderSeparator,rgb(243, 242, 242));
+}
