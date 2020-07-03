@@ -1,0 +1,6 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+<aura:attribute name="sObj" type="String" default="https://www.financialforce.com/feed/"/>
+<aura:attribute name="field" type="Integer" default="5"/>
+
+    <LC_Rss:RSSViewer URL="{!v.sObj}" numberOfEntries="{!v.field}"/>
+</aura:component>

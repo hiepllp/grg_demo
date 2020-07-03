@@ -1,0 +1,46 @@
+<apex:page standardController="pse__Resource_Request__c" extensions="ResourceSplitController" sidebar="false" recordSetVar="rr">
+    <script type="text/javascript">
+        function selectAllCheckboxes(obj,receivedInputID){
+            var inputCheckBox = document.getElementsByTagName("input");
+            for(var i=0; i<inputCheckBox.length; i++){
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        }
+    </script>    
+    
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Split" action="{!processSelected}"/>
+                <apex:commandButton value="Back" action="{!goback}"/>
+            </apex:pageBlockButtons>
+            <apex:pageblockSection title="Resource Requests" collapsible="false" columns="1">
+                <apex:pageMessages />
+ 				<apex:outputPanel id="results">
+                <apex:pageBlockTable value="{!wrapRRList}" var="RRWrap" id="table" title="All Resource Requests">
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!RRWrap.selected}" id="inputId"/>
+                    </apex:column>
+                    <apex:column headerValue="Resource Request">
+                    	<apex:outputLink value="/{!RRWrap.RR.Id}" target="_blank">{!RRWrap.RR.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column value="{!RRWrap.RR.pse__Resource_Role__c}"/>
+                    <apex:column value="{!RRWrap.RR.pse__SOW_Hours__c}" />
+                    
+                    <apex:repeat value="{!RegionsCount}" var="count">
+                        <apex:column headerValue="{!RegionsList[count].Name}(%)">
+                            <apex:inputText value="{!RRWrap.RegionPercent[count]}"/>
+                        </apex:column>
+                    </apex:repeat>
+                                        
+                </apex:pageBlockTable>
+                </apex:outputPanel>
+            </apex:pageblockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

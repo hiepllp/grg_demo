@@ -1,0 +1,4 @@
+<design:component >
+    <design:attribute name="sObj" label="RSS Url" description="The URL of the RSS Feed." />
+    <design:attribute name="field" label="Number of Items" />
+</design:component>

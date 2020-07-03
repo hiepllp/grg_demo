@@ -1,0 +1,156 @@
+<apex:page standardController="pse__Proj__c" lightningStylesheets="true" extensions="PSACostAndRevenuePlanForProject" >
+  <style>
+    .rightAlign {
+      text-align : right;
+    }
+  </style>
+  <apex:form >
+    <apex:pagemessages />
+    <apex:outputText style="display:none" value="{!pse__Proj__c.pse__Billing_Type__c}"/>
+    
+    <!-- Cost and Revenue per Role Page Block -->
+    <apex:pageBlock >
+      <apex:pageBlockTable id="pbt" value="{!costAndRevenuePlan.costsAndRevenuesPerRole}" var="costAndRevenuePerRole">
+        <!-- Role Column -->
+        <apex:column headerValue="Role" value="{!costAndRevenuePerRole.role}" rendered="{!pse__Proj__c.pse__Billing_Type__c='Time and Materials'}" footerValue="Planned Hours And Estimated Cost and Revenue" />
+        <apex:column headerValue="Role" value="{!costAndRevenuePerRole.role}" rendered="{!pse__Proj__c.pse__Billing_Type__c='Not To Exceed'}" footerValue="Planned Hours And Estimated Cost and Revenue" />
+        <apex:column headerValue="Role" value="{!costAndRevenuePerRole.role}" rendered="{!pse__Proj__c.pse__Billing_Type__c='Multi-Element'}" footerValue="Planned Hours And Estimated Cost and Revenue" />
+        <apex:column headerValue="Role" value="{!costAndRevenuePerRole.role}" rendered="{!pse__Proj__c.pse__Billing_Type__c='Fixed Price'}" footerValue="Planned Hours And Estimated Cost" />
+        <!-- Hours Column -->
+        <apex:column value="{!costAndRevenuePerRole.totalHoursPerRole}" styleClass="rightAlign"
+                        headerValue="Total Hours per Role" headerClass="rightAlign"
+                        footerValue="{!costAndRevenuePlan.totalHours}" footerClass="rightAlign"/>
+        <!-- Cost Column -->
+        <apex:column value="{!costAndRevenuePerRole.costRate}" styleClass="rightAlign"
+                        headerValue="Cost Rate" headerClass="rightAlign"
+                        footerValue="{!costAndRevenuePlan.blendedCostRateTotal}" footerClass="rightAlign"/>
+        <!-- Bill Rate Column -->
+        <apex:column value="{!costAndRevenuePerRole.billRate}" rendered="{!pse__Proj__c.pse__Billing_Type__c='Time and Materials'}" styleClass="rightAlign"
+                        headerValue="Bill Rate" headerClass="rightAlign"
+                        footerValue="{!costAndRevenuePlan.blendedBillRateTotal}" footerClass="rightAlign"/>
+        <apex:column value="{!costAndRevenuePerRole.billRate}" rendered="{!pse__Proj__c.pse__Billing_Type__c='Not To Exceed'}" styleClass="rightAlign"
+                        headerValue="Bill Rate" headerClass="rightAlign"
+                        footerValue="{!costAndRevenuePlan.blendedBillRateTotal}" footerClass="rightAlign"/>
+        <apex:column value="{!costAndRevenuePerRole.billRate}" rendered="{!pse__Proj__c.pse__Billing_Type__c='Multi-Element'}" styleClass="rightAlign"
+                        headerValue="Bill Rate" headerClass="rightAlign"
+                        footerValue="{!costAndRevenuePlan.blendedBillRateTotal}" footerClass="rightAlign"/>
+        <!-- Total Cost Column -->
+        <apex:column styleClass="rightAlign" headerClass="rightAlign" headerValue="Est Cost">
+          <apex:outputPanel layout="block" styleclass="rightAlign">
+            <apex:outputField value="{!costAndRevenuePerRole.cost[dummyFieldName]}"/>
+          </apex:outputPanel>
+          <apex:facet name="footer">
+            <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!costAndRevenuePlan.totalEstimatedCost!=null}">
+              <apex:outputField value="{!costAndRevenuePlan.totalEstimatedCost[dummyFieldName]}"/>
+            </apex:outputPanel>
+          </apex:facet>
+        </apex:column>
+        <!-- Total Revenue Column -->
+        <apex:column styleClass="rightAlign" headerCLass="rightAlign" headerValue="Est Revenue" rendered="{!pse__Proj__c.pse__Billing_Type__c = 'Time and Materials' || pse__Proj__c.pse__Billing_Type__c = 'Multi-Element'}">
+          <apex:outputPanel layout="block" styleclass="rightAlign">
+            <apex:outputField value="{!costAndRevenuePerRole.revenue[dummyFieldName]}"/>
+          </apex:outputPanel>
+          <apex:facet name="footer">
+            <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!costAndRevenuePlan.totalEstimatedRevenue!=null}">
+              <apex:outputField value="{!costAndRevenuePlan.totalEstimatedRevenue[dummyFieldName]}"/>
+            </apex:outputPanel>
+          </apex:facet>
+        </apex:column>
+        <apex:column styleClass="rightAlign" headerCLass="rightAlign" headerValue="Est Revenue" rendered="{!pse__Proj__c.pse__Billing_Type__c = 'Not To Exceed'}">
+          <apex:outputPanel layout="block" styleclass="rightAlign">
+            <apex:outputField value="{!costAndRevenuePerRole.revenue[dummyFieldName]}"/>
+          </apex:outputPanel>
+          <apex:facet name="footer">
+            <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!costAndRevenuePlan.totalEstimatedRevenue!=null}">
+              <apex:outputField value="{!costAndRevenuePlan.totalEstimatedRevenue[dummyFieldName]}"/>
+            </apex:outputPanel>
+          </apex:facet>
+        </apex:column>
+      
+    </apex:pageBlockTable>
+   </apex:pageBlock>
+   
+   <!-- Fixed Price Opportunity Line Item Page Block -->
+
+   <apex:pageBlock rendered="{!pse__Proj__c.pse__Billing_Type__c='Fixed Price'}">
+     <apex:pageBlockTable value="{!costAndRevenuePlan.summaryMilestones}" var="milestone" >
+       <!-- Milestone Name Column -->
+       <apex:column value="{!milestone.Name}" headerValue="" >
+         <apex:facet name="footer">
+           Estimated Revenue
+         </apex:facet>
+       </apex:column>
+       <!-- Milestone Target date -->
+       <apex:column value="{!milestone.pse__Target_Date__c}" styleClass="rightAlign" headerClass="rightAlign" />
+       
+       <!-- Milestone Estimated Revenue Column -->
+       <apex:column value="{!milestone.pse__Milestone_Amount__c}" styleClass="rightAlign" headerClass="rightAlign" >
+         <apex:facet name="footer">
+           <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!costAndRevenuePlan.totalEstimatedRevenue!=null}">
+             <apex:outputField value="{!costAndRevenuePlan.totalEstimatedRevenue[dummyFieldName]}"/>
+           </apex:outputPanel>
+         </apex:facet>
+       </apex:column>
+
+     </apex:pageBlockTable>
+   </apex:pageBlock>
+      
+  <!-- Hybrid section -->
+   <apex:pageBlock rendered="{!OR(pse__Proj__c.pse__Billing_Type__c='Multi-Element')}">
+     <apex:pageBlockTable value="{!HybridProducts}" var="milestone" >
+       <!-- Milestone Estimated Revenue -->
+       <apex:column value="{!milestone.Name}" headerValue="Services Product(s)" >
+         <apex:facet name="footer">
+           Estimated Revenue
+         </apex:facet>
+       </apex:column>
+       <!-- Milestone Target Date Column -->
+       <apex:column value="{!milestone.pse__Target_Date__c}" styleClass="rightAlign" headerClass="rightAlign" />
+       <!-- Milestone Estimated Revenue Column -->
+       <apex:column value="{!milestone.pse__Milestone_Amount__c}" styleClass="rightAlign" headerClass="rightAlign" >
+         <apex:facet name="footer">
+           <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!pse__Proj__c.Fixed_Price_Planned_Revenue__c!=null}">
+             <apex:outputField value="{!pse__Proj__c.Fixed_Price_Planned_Revenue__c}"/>
+           </apex:outputPanel>
+         </apex:facet>
+       </apex:column>
+
+     </apex:pageBlockTable>
+   </apex:pageBlock>
+      
+      
+   <!-- Summary field Page Block Section -->
+   
+   <apex:pageBlock mode="maindetail">
+     <apex:pageBlockSection columns="2">
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="{!$ObjectType.pse__Proj__c.fields.Planned_Costs__c.label}" />
+         <apex:outputField value="{!costAndRevenuePlan.totalEstimatedCost[dummyFieldName]}" rendered="{!costAndRevenuePlan.totalEstimatedCost!=null}"/>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="Planned Margin" />
+            <apex:outputText value="{0, number, ###,###,##0.00}" rendered="{!costAndRevenuePlan.plannedMargin!=null}">
+          {!pse__Proj__c.CurrencyIsoCode}<apex:param value="{!costAndRevenuePlan.plannedMargin[dummyFieldName] + IF(pse__Proj__c.pse__Billing_Type__c = 'Multi-Element',costAndRevenuePlan.totalEstimatedRevenue[dummyFieldName],0)}" />
+      </apex:outputText>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="Planned Revenue" />
+            <apex:outputText value="{0, number, ###,###,##0.00}" rendered="{!costAndRevenuePlan.totalEstimatedRevenue!=null}">
+          {!pse__Proj__c.CurrencyIsoCode}<apex:param value="{!costAndRevenuePlan.totalEstimatedRevenue[dummyFieldName] + IF(pse__Proj__c.pse__Billing_Type__c = 'Multi-Element',pse__Proj__c.Fixed_Price_Planned_Revenue__c,0)}" />
+      </apex:outputText>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="Planned Margin %" />
+            <apex:outputText value="{0, number, ###,###,##0.00%}" rendered="{!costAndRevenuePlan.plannedMargin!=null}">
+                <apex:param value="{!pse__Proj__c.Planned_Margin_Pct__c}" />
+      </apex:outputText>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="{!$ObjectType.pse__Proj__c.fields.pse__Planned_Hours__c.label}" />
+         <apex:outputField value="{!pse__Proj__c.pse__Planned_Hours__c}" rendered="{!pse__Proj__c.pse__Planned_Hours__c!=null}"/>
+       </apex:pageBlockSectionItem>
+     </apex:pageBlockSection>
+   </apex:pageBlock>
+   
+  </apex:form>
+</apex:page>

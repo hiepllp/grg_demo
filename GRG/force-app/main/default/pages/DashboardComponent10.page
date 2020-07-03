@@ -1,0 +1,18 @@
+<apex:page controller="DashboardComponentController" showHeader="false" showChat="false" sidebar="false">
+<style>
+.headingText {
+    text-align: center;
+    font-size: 24px;
+    color: grey;
+    padding:10px;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+    }
+</style>
+    <span class="headingText">
+		Income Statement Multi-Company
+    </span>
+    <p/>
+        <a href="/apex/ffr__reportingdefinitionprompt?id={!Component10Id}" target="_blank">
+        <apex:image url="{!URLFOR($Resource.DashboardItems,'/Component10.png')}" width="360px" title="Income Statement Multi-Company"/>
+    </a>    
+</apex:page>

@@ -1,0 +1,98 @@
+<apex:page standardStylesheets="false" applyBodyTag="false" docType="html-5.0" controller="ConfigurationMigrationController">
+<style type="text/css">
+    .col1 {width:30%;}
+    .col2 {width:70%;}
+    .msgIcon {min-width: 24px;}
+</style>
+
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta http-equiv="x-ua-compatible" content="ie=edge" />
+          <title>Trial Data Migration</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+          <!-- Import the Design System style sheet -->
+          <apex:slds />
+      </head>
+      <body>
+          <!-- REQUIRED SLDS WRAPPER -->
+          <div class="slds-scope">
+            <h3 class="slds-section__title">Trial Org Migration</h3>
+              <apex:form >
+                  <apex:panelGrid columns="2" columnClasses="col1,col2">
+                  <apex:outputPanel >
+              <div class="slds-form-element">
+  				<label class="slds-form-element__label" for="text-input-01">Changes since</label>
+  				<div class="slds-form-element__control">
+        		<apex:inputText value="{!modDate}" label="From Date" styleClass="slds-input" id="date"/>
+              </div>
+            </div>
+              <div class="slds-form-element">
+  				<label class="slds-form-element__label" for="text-input-01">Query Term</label>
+  				<div class="slds-form-element__control">
+				<apex:inputText value="{!queryObject}" label="Query Term" styleClass="slds-input" id="query"/>
+              </div>
+            </div>
+                      <br/>
+  <apex:commandButton styleClass="slds-button slds-button--brand" action="{!loadObjectdata}" title="Load" value="Load"/>
+                      </apex:outputPanel>
+                      <apex:outputPanel >
+                                <apex:pageMessages />
+                      </apex:outputPanel>
+                  </apex:panelGrid>
+              </apex:form>
+              <br/>
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+              <thead>
+                <tr class="slds-text-title--caps">
+                  <th scope="col">
+                    <div class="slds-truncate" title="Object Label">Object Label</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Object Name">Object Name</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Changes"># of Changes</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Export"></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          <apex:form >
+              <apex:repeat value="{!counterList}" var="ob">
+                <tr>
+                <td data-label="Label">
+                    <div class="slds-truncate">
+                        <apex:outputText value="{!objectLabelList[ob]}"/>
+                    </div>
+                </td>
+                <td data-label="Name">
+                    <div class="slds-truncate">
+                        <apex:outputText value="{!objectNameList[ob]}"/>
+                    </div>
+                </td>
+                <td data-label="Changes">
+                    <div class="slds-truncate" >
+                        <apex:outputText value="{!objectChangeCount[ob]} change(s)." style="{!IF(objectChangeCount[ob]>0,'font-weight: bold;','')}"/>
+                    </div>
+                </td>
+                <td data-label="Changes">
+                    <div class="slds-truncate" >
+                        <apex:outputLink value="/apex/CSVdownload?object={!objectNameList[ob]}&date={!modDate}" title="Export">Export</apex:outputLink>
+                    </div>
+                </td>
+            </tr>
+        </apex:repeat>
+    </apex:form>
+</tbody>
+</table>
+<!-- / REQUIRED SLDS WRAPPER -->
+
+</div>
+
+</body>
+</html>
+</apex:page>

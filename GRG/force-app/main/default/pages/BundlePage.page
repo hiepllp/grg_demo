@@ -1,0 +1,7 @@
+<apex:page controller="BundleClasses" lightningStylesheets="true">
+    <br/>
+    	<h2>
+            {!message}
+    </h2>
+    <br/>
+</apex:page>

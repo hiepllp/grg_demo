@@ -1,0 +1,12 @@
+<apex:page standardController="pse__Proj__c">
+    <script src="/soap/ajax/31.0/apex.js"> </script >
+    <script src="/soap/ajax/31.0/connection.js"> </script >
+    <script>
+        
+var val = sforce.apex.execute("MonthlyMilestoneCalculationsService","createMonthlyMilestone", {projectID:"{!pse__Proj__c.Id}"}); 
+if(val !='') { 
+alert ( {!TEXT( pse__Proj__c.Managed_Service_Term_Calculated__c )} + " Managed Service milestones have been created for this project." ) 
+window.location.href = window.location.href; 
+}
+    </script>
+</apex:page>

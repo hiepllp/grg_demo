@@ -1,0 +1,3 @@
+<apex:page standardController="pse__Proj__c">
+<center><p><strong><em><span style="color: #0000ff;">┌──────────&nbsp;</span><span style="color: #0000ff;">Actual Costs and Margin</span><span style="color: #0000ff;">&nbsp;──────────┐</span></em></strong></p></center>
+</apex:page>

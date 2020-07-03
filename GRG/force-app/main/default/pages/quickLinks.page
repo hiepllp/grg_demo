@@ -1,0 +1,17 @@
+<apex:page controller="quickLinksController" lightningStylesheets="true" sidebar="false" showHeader="false" showChat="false">
+<style>
+.apexp .bPageBlock.apexDefaultPageBlock .pbBody {
+    margin:0px;
+}
+.bPageBlock {
+    border-top:0px;
+}
+</style>
+
+    <!-- Change the href below to the link you want. Change the text too-->
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!Procedures}" var="pro">
+            <apex:column value="{!pro.Hyperlink__c}" headerValue="Month End Procedure" />
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

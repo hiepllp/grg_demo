@@ -1,0 +1,188 @@
+<apex:page controller="MyAccountNewController" showHeader="false">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Status', 'Project Count'],
+          ['Completed', {!ProjectsCompleted}],
+          ['In Progress', {!ProjectsProgress}],
+          ['Planned', {!ProjectsPlanned}],
+          ['On Hold', {!ProjectsHold}], 
+          ['Canceled', {!ProjectsCanceled}]
+        ]);
+
+        var options = {
+          title: 'Project Stage Breakdown',
+          slices: {
+            0: { color: 'green' },
+            1: { color: 'orange' },
+            2: { color: 'blue' },
+            3: { color: 'purple' },
+            4: { color: 'red' }
+          }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    <style>
+
+    body {
+    margin: 0;
+}
+a.anchor {
+    display: block;
+    position: relative;
+    top: -130px;
+    visibility: hidden;
+}
+uld {
+    text-align: center;
+    margin: 0;
+    width: 100%;
+    background-image: url("https://dl.dropbox.com/s/kf24yer39pke8oj/purpleheader.jpg");
+    background-position: 0%;
+    background-size: cover;
+    position: fixed;
+    height: 110px;
+    overflow: auto;
+    z-index:5;
+}
+
+lid a {
+    display: inline;
+    color: #000;
+    padding: 8px 16px 8px 16px;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size:14px;
+    font-weight: bold;
+}
+
+lid a.active {
+    background-color: white;
+    color: #0D5493;
+}
+
+lid a:hover:not(.active) {
+    background-color: white;
+    color: #0D5493;
+}    
+    .pbBody, .pbBody a, .pbBody td, .lbBody a, .lbBodyDescription, .list .headerRow .noRowsHeader {
+    	color: #2574a9;
+	}
+    .headerText
+        {
+        text-align: center;
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        }
+        
+.gridClass {
+    vertical-align: top;
+}
+.accountHeader {
+	font-size:14px;
+    padding:5px
+}
+.accountText {
+	font-size:14px;
+    padding:5px
+}        
+.col1 {width:25%;vertical-align: top;}
+.col2 {width:15%;vertical-align: top;}
+.col3 {width:55%;vertical-align: top;}
+</style>
+
+<uld>
+    <img src="https://dl.dropbox.com/s/7enwuv5c5zjv9q2/emerlinlogo-941595.png" style="width: 200px;display: block;margin-left: auto;margin-right: auto;margin-bottom: 10px;"/>
+
+    <lid><a href="#Home">HOME</a></lid>
+    <lid><a href="#Chatter">CHATTER</a></lid>
+    <lid><a href="../c2g__communitiesmyaccountsummary">MYACCOUNT</a></lid>
+    <lid><a href="../a3B">PROJECTS</a></lid>
+    <lid><a href="pse__PSATimecardEntry" style="{!IF(userAccount.Name == 'United Partners*', 'display:none', 'display:inline')}">LOG A TIMECARD</a></lid>
+</uld>
+<div id="Home" class="anchor" style="padding: 130px 20px 20px 20px;">
+  <span class="headerText">Welcome to the Merlin Technologies Community! </span>
+    <p>
+      <span class="headerText">Welcome {!$User.FirstName}, your Community details are below. </span>
+    </p>
+</div>
+    <div id="Projects" class="anchor" style="padding: 130px 20px 20px 20px;margin-top: -130px; font-size:14px">
+  	  <span class="headerText">Your Projects: </span>
+        <table style="width:90%">
+            <tr>
+                <th><div id="piechart" style="width: 450px;"></div></th>
+        		<th>
+                <apex:pageBlock mode="maindetail" id="Projects">
+            		<apex:pageBlockTable rows="10" value="{!Projects}" var="proj">
+                        <apex:column headerValue="Project Name" >
+                            <apex:outputLink value="/{!Proj.Id}">
+                                {!Proj.Name}
+                            </apex:outputLink>
+                        </apex:column>
+                        <apex:column headerValue="Stage" value="{!Proj.pse__Stage__c}"/>
+                        <apex:column headerValue="Start Date" value="{!Proj.pse__Start_Date__c}"/>
+                        <apex:column headerValue="End Date" value="{!Proj.pse__End_Date__c}"/>
+                        <apex:column headerValue="Status" value="{!Proj.Status__c}"/>                
+                        <apex:column headerValue="Financial" value="{!Proj.Financial__c}"/>
+                        <apex:column headerValue="Schedule" value="{!Proj.Schedule__c}"/>
+                        <apex:column headerValue="Project Gantt">
+                            <apex:outputLink value="../apex/pse__ProjectTaskGantt?id={!Proj.Id}">
+                                View Gantt
+                            </apex:outputLink>
+                        </apex:column>
+            		</apex:pageBlockTable>
+        		</apex:pageBlock>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-left:5%;margin-top:50px">
+        <apex:panelGrid columns="3" columnClasses="col1, col2, col3">
+            <apex:outputPanel layout="block" >
+                <span class="accountHeader">Account Name</span>
+                <br/>
+                <span class="accountText">{!userAccount.Name}</span>
+                <br/>
+                <hr/>
+                <span class="accountHeader">Website</span>
+                <br/>
+                <span class="accountText">{!userAccount.website}</span>
+                <br/>
+                <hr/>
+                <span class="accountHeader">Description</span>
+                <br/>
+                <span class="accountText">{!userAccount.Description}</span>
+                <br/>
+                <hr/>
+                <apex:iframe src="https://na30.salesforce.com/servlet/servlet.ChartServer?rsid=0FL2w000000MKKJ&ruid=0052w000001l1lF&did=01Z2w000000gR7I&s=7&fs=10&tfg=12&tfs=-16777216&explode=0&c=column&cs=0&title=&eh=no&compo=yes&fg=-16777216&bg1=-1&bg2=-1&bgdir=2&dl1=Age+Analysis+Category&dl2=&l=2&sax=yes&Yman=no&nc=0&actUrl=%2F00O2w000001xP7Q%3Fdbw%3D1&sd=1&scv=no&sct=no&spt=no&bd=yes&cu=USD&ab=X&u=0&vt=0&ab2=Y&u2=0&vt2=0&vl0=Amount&spoc=no&topn=no&gc0=-1&gc1=-1&gc2=-1&sona=0&refreshts=1461932379000"/>
+            </apex:outputPanel>
+            <apex:outputPanel layout="block">
+                <span class="accountHeader">Phone</span>
+                <br/>
+                <span class="accountText">{!userAccount.Phone}</span>
+                <br/>
+                <hr/>
+                <span class="accountHeader">Fax</span>
+                <br/>
+                <span class="accountText">{!userAccount.Fax}</span>
+                <br/>
+                <hr/>
+            </apex:outputPanel>
+            <apex:outputPanel layout="block">
+                <div id="Chatter" class="anchor" style="padding: 130px 20px 20px 20px;margin-top: -130px;">
+                    <chatter:newsfeed />
+                </div>
+            </apex:outputPanel>
+        </apex:panelGrid>
+    </div>
+</apex:page>

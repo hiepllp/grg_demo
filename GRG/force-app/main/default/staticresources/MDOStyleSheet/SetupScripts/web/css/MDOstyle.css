@@ -1,0 +1,346 @@
+/* CSS for Custom Matching.page */
+
+div.ff-form {
+	padding: 0 0.4em 0.1em 0.4em;
+}
+
+div.ff-formtitle {
+	margin: 0; 
+	padding: 0.3em; 
+	text-align: center;
+}
+
+.selection-table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.selection-table td.ff-label {
+	text-align: right;
+	font-weight: bold;
+	width: 15%;
+}
+
+.selection-table td.ff-value {
+	width: 18%;
+}
+
+.balance-table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.balance-table td.ff-label {
+	text-align: right;
+	font-weight: bold;
+	width: 15%;
+}
+
+.balance-table td.ff-value {
+	width: 18%;
+}
+
+.align-right {
+	text-align: right;
+}
+
+td.required-field input{
+	border-left: 4px solid red;
+}
+
+.btn-bar {
+	text-align: center;
+}
+
+.btn-bar button {
+	margin: 0 2px 0 2px;
+}
+
+.ui-accordion-content {
+	padding: 3px 2px 2px 3px !important;
+}
+
+.hideme {
+	display: none;
+}
+
+/* Generic Table Style */
+.transaction-table {
+	width: 100%;
+	table-layout: fixed;
+	font-weight: normal;
+	font-size: 8pt;
+}
+
+.table-header {
+	padding-left: 30px;
+	padding-right: 8px;
+	font-weight: bold!important;
+	background-color: #9FD2F3;
+}
+
+.transaction-table .input-value input {
+	width: 90%;
+}
+
+.transaction-table tr.linetype-header {
+	background-color: #B6B6B4;
+	font-weight: bold;
+}
+
+.transaction-table tr.linetype-detail {
+	background-color: #E5E4E2;
+}
+
+.transaction-table tr.linetype-header:hover {
+	background-color: #B2D1FF;
+}
+
+.transaction-table tr.linetype-detail:hover {
+	background-color: #B2D1FF;
+}
+
+/* History Table */
+.history-table tr.table-header {
+	background-color: #B6B6B4;
+	font-weight: bold;
+}
+
+.history-table tr.table-detail {
+	background-color: #E5E4E2;
+}
+
+.history-table .col-amount {
+	text-align: right;
+}
+
+.history-table .col-wotype {
+	text-align: center;
+}
+
+.history-table .col-date {
+	text-align: center;
+}
+
+/* WriteOff Table */
+#woff-container-transaction-table .col-total,
+#woff-container-transaction-table .col-paid {
+	display: none;
+	width: 0%;
+}
+
+#woff-container-transaction-table .col-toggle {
+	width: 2%;
+}
+
+#woff-container-transaction-table .col-checkbox {
+	width: 2%;
+}
+
+#woff-container-transaction-table .col-checkbox input {
+	margin-left: 1px;
+}
+
+#woff-container-transaction-table .col-docno {
+	width: 6%;
+}
+
+#woff-container-transaction-table .col-transno {
+	width: 6%;
+}
+
+#woff-container-transaction-table .col-transdate {
+	width: 15%;
+}
+
+#woff-container-transaction-table .col-oli {
+	width: 5%;
+}
+
+#woff-container-transaction-table .col-dim1 {
+	width: 8%;
+}
+
+#woff-container-transaction-table .col-dim2 {
+	width: 7%;
+}
+
+#woff-container-transaction-table .col-dim3 {
+	width: 8%;
+}
+
+#woff-container-transaction-table .col-dim4 {
+	width: 7%;
+}
+
+#woff-container-transaction-table .col-outstanding {
+	width: 6%;
+	text-align: right;
+}
+
+#woff-container-transaction-table .col-woff {
+	width: 7%;
+	text-align: right;
+}
+
+#woff-container-transaction-table .col-woff input {
+	text-align: right;
+}
+
+#woff-container-transaction-table .col-woff.linetype-header.cash input {
+	border: none;
+	background-color: #B6B6B4;
+	color: black;
+	font-weight: bold;
+}
+
+.transaction-table tr.linetype-header.cash:hover input {
+	background-color: #B2D1FF !important;
+}
+
+input.header-protect-woff {
+	border: none;
+	background-color: #B6B6B4;
+	color: black;
+	font-weight: bold;
+}
+
+.transaction-table tr.linetype-header:hover input.header-protect-woff {
+	background-color: #B2D1FF !important;
+}
+
+input.detail-protect-woff {
+	display: none;
+}
+
+#woff-container-transaction-table .col-wotype {
+	width: 18%;
+	text-align: center;
+}
+
+#woff-container-transaction-table .col-history {
+	width: 5%;
+	text-align: center;
+}
+
+/* Cash Table */
+#cash-container {
+	float: left;
+	width: 50%;
+}
+
+#cash-container-transaction-table .col-transno,
+#cash-container-transaction-table .col-oli,
+#cash-container-transaction-table .col-dim1,
+#cash-container-transaction-table .col-dim2,
+#cash-container-transaction-table .col-dim3,
+#cash-container-transaction-table .col-dim4,
+#cash-container-transaction-table .col-woff,
+#cash-container-transaction-table .col-wotype,
+#cash-container-transaction-table .col-history {
+	display: none;
+	width: 0%;
+}
+
+#cash-container-transaction-table .col-toggle {
+	width: 3%;
+	text-align: center;
+}
+
+#cash-container-transaction-table .col-checkbox {
+	width: 3%;
+	text-align: center;
+}
+
+#cash-container-transaction-table .col-checkbox input {
+	margin-left: 1px;
+}
+
+#cash-container-transaction-table .col-docno {
+	width: 12%;
+}
+
+#cash-container-transaction-table .col-transdate {
+	width: 22%;
+}
+
+#cash-container-transaction-table .col-total {
+	width: 20%;
+	text-align: right;
+}
+
+#cash-container-transaction-table .col-outstanding {
+	width: 20%;
+	text-align: right;
+}
+
+#cash-container-transaction-table .col-paid {
+	width: 20%;
+	text-align: right;
+}
+
+#cash-container-transaction-table .col-paid input {
+	text-align: right;
+}
+
+/* Others Table */
+#other-container {
+	float: right;
+	width: 50%;
+}
+
+#other-container-transaction-table .col-transno,
+#other-container-transaction-table .col-oli,
+#other-container-transaction-table .col-dim1,
+#other-container-transaction-table .col-dim2,
+#other-container-transaction-table .col-dim3,
+#other-container-transaction-table .col-dim4,
+#other-container-transaction-table .col-woff,
+#other-container-transaction-table .col-wotype,
+#other-container-transaction-table .col-history {
+	display: none;
+	width: 0%;
+}
+
+#other-container-transaction-table .col-toggle {
+	width: 3%;
+	text-align: center;
+}
+
+#other-container-transaction-table .col-checkbox {
+	width: 3%;
+	text-align: center;
+}
+
+#other-container-transaction-table .col-checkbox input {
+	margin-left: 1px;
+}
+
+#other-container-transaction-table .col-docno {
+	width: 12%;
+}
+
+#other-container-transaction-table .col-transdate {
+	width: 22%;
+}
+
+#other-container-transaction-table .col-total {
+	width: 20%;
+	text-align: right;
+}
+
+#other-container-transaction-table .col-outstanding {
+	width: 20%;
+	text-align: right;
+}
+
+#other-container-transaction-table .col-paid {
+	width: 20%;
+	text-align: right;
+}
+
+#other-container-transaction-table .col-paid input {
+	text-align: right;
+}
+
+

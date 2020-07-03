@@ -1,0 +1,50 @@
+<apex:page standardStylesheets="false" applyBodyTag="false" docType="html-5.0" controller="DSSReportingWizardController" cache="false" showHeader="true">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta http-equiv="x-ua-compatible" content="ie=edge" />
+          <title>DSS Reporting Wizard (BETA)</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+          <!-- Import the Design System style sheet -->
+          <apex:slds />
+      </head>
+      <body>
+          <div id="loadingImage" style="display:none;">
+              <div>
+                  <img id="loading" src="http://i.imgur.com/lPzp7Wd.gif" style="position: fixed; width: 400px; height: 200px; left:50%; top:50%; margin-left: -200px; margin-top: -100px; border-radius: 80px;z-index: 1;"/>
+                  <span id="loadingtext" style="position: fixed; left: 50%; top: 50%; margin-left: -29px;margin-top: 63px; border-radius: 80px; z-index: 120;color: white;font-size: 17px;">Loading</span>
+              </div>
+          </div>
+
+        <!-- REQUIRED SLDS WRAPPER -->
+        <div class="slds-scope">
+            <div class="slds-tabs--scoped">
+                <ul class="slds-tabs--scoped__nav" role="tablist">
+                    <li id="Configuration_tab" class="slds-tabs--scoped__item slds-active" title="DSS Reporting Wizard" role="presentation">
+                        <a class="slds-tabs--scoped__link" href="javascript:functiontab1()" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item">DSS Reporting Wizard (PILOT)</a>
+                    </li>
+                </ul>
+                <div id="tab-scoped-1" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
+                    <h3>Use the tool below to convert a tabular salesforce report into an FFR detail report (with only some filters). The reports should be tabular and not stored in the <b>My Personal Custom Reports</b> folder or the <b>Unfiled Public Reports</b> folder. </h3>
+                    <br/>
+                    <h2>This tool is for <b>internal use only</b> and is for use in getting around the 2000 line limit that exists for salesforce reports in XL+. By converting the salesforce report into an FFR detail report (using this tool) you will be able to report on 1000's of lines using XL+. The report, once created can be <a href="http://en-us.help.financialforce.com/reporting/7X/Default.htm#ReportDefinition/Import.htm" target="_blank">exported</a> using standard FFR functionality.</h2>
+                    <br/>
+                    <apex:pageMessages />
+                    <apex:form style="display: inline-block;">
+                            <apex:selectList value="{!recordID}" multiselect="false" size="1">
+                                <apex:selectOption itemValue="--None--" itemLabel="--None--"/>
+                                <apex:selectOptions value="{!TabularList}"/>
+                            </apex:selectList>
+                        <br/>
+                        <br/>
+                            <apex:commandButton action="{!convert}" value="Convert"/>
+                      </apex:form>
+                  </div>
+                    <br/>
+                    <h2 style="font-size:10px;">Due to the quantity of different reports possible, we anticipate errors to occur during Beta testing. Any problems with this tool should be reported to mbyrne@financialforce.com let me know the report type used, and the columns on your report in as much detail as possible. Ideally login details or screenshots so that the error can be replicated and solution found. Also use this email to submit enhancements.</h2>
+              </div>
+          </div>
+        </body>
+    </html>
+</apex:page>

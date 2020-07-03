@@ -1,0 +1,51 @@
+<apex:page standardStylesheets="false" lightningStylesheets="true" applyBodyTag="false" docType="html-5.0" controller="DemoSetupBundlesController" showHeader="true">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>MDO Bundles Page</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            
+            <!-- Import the Design System style sheet -->
+            <apex:slds />
+        </head>
+        <body>            
+            <!-- REQUIRED SLDS WRAPPER -->
+            
+            <div class="slds-scope">
+                <div class="slds-tabs--scoped">                    
+                    <div id="tab-scoped-3" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-3__item">
+                        <h2 class="slds-section">You must be an internal FinancialForce employee to use the bundles below. These are optional extras or processes that can be run. When you click the <b>Start Bundle Job</b> link you will be emailed a verification code before the process will begin to ensure you are a FinancialForce Employee. Following success, there may be <b>Post-Install</b> steps to carry out. For any errors with the bundle contact the author.</h2>
+                        <apex:form >
+                            <apex:repeat value="{!bundlejobs}" var="bj">
+                                <div class="demo-only" style="width: 320px;padding: 5px;display: inline-block;vertical-align: top;">
+                                    <ul class="slds-has-dividers_around-space" style="background: #fafaf9;">
+                                        <li class="slds-item">
+                                            <article class="slds-tile slds-tile_board">
+                                                <h3 class="slds-text-heading_medium" title="Name" style="float:left;">{!bj.Name}</h3>
+                                                <br style="line-height: 25px;"/>
+                                                <h3 class="slds-tile__title slds-truncate" title="Start Bundle Job" style="float:left;"><a href="/apex/ffct__bundlejobrun?scontrolCaching=1&id={!bj.Id}" target="_blank">Start Bundle Job</a></h3>
+                                                <h3 class="slds-tile__title slds-truncate" style="{!IF(bj.Post_Install_Class_Name__c != '','float:right;','display:none;')}" title="Start Post-Install"><a href="/apex/c__BundlePage?class={!bj.Post_Install_Class_Name__c}" target="_blank">Start Post-Install</a></h3>
+                                                <hr style="margin: 0.5rem 0;"/>
+                                                <div class="slds-tile__detail">
+                                                    <h3 class="slds-tile__title slds-truncate" title="Documentation"><a href="{!bj.Documentation_Link__c}" target="_blank">Documentation</a></h3>
+                                                    <p title="Short Description">{!bj.Short_Description__c}</p>
+                                                    <p title="Author"><b>Author: {!bj.Author__c}</b></p>
+                                                </div>
+                                            </article>
+                                        </li>
+                                    </ul>
+                                    
+                                </div>
+                            </apex:repeat>
+                        </apex:form>
+                    </div>
+                </div>
+                <div id="hiddenbackground" class="slds-backdrop slds-backdrop--close"></div>
+                <!-- / REQUIRED SLDS WRAPPER -->
+                
+            </div>
+            
+        </body>
+    </html>
+</apex:page>

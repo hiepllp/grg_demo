@@ -1,0 +1,7 @@
+<apex:page controller="LinkRedirectController" showHeader="false" showChat="false" showQuickActionVfHeader="false">
+<script type="text/javascript" language="Javascript">
+    setTimeout(function () {
+   window.location.href = '{!link}'; 
+   }, 0); 
+</script>
+</apex:page>

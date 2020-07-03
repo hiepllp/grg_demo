@@ -1,0 +1,8 @@
+<apex:page standardController="Account" lightningStylesheets="true" showHeader="true" sidebar="true" standardStylesheets="true">
+    
+    <!-- Hidden field so we can get the account name from the standard controller -->
+    <span style="display:none;">{!account.name}</span>
+
+    <c2g:ProfitabilityReportingWidget record="{!account}" filter-fieldname="{!$ObjectType.c2g__codaTransactionLineItem__c.name}.{!$ObjectType.c2g__codaTransactionLineItem__c.fields.c2g__Account__c.name}" />
+
+</apex:page>

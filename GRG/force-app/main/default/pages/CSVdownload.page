@@ -1,0 +1,21 @@
+<apex:page controller="CSVdownloadController" contentType="text/csv#{!sobjectname}Export.csv">
+    <apex:variable value="{!1}" var="counter"/>
+    <apex:variable value="{!0}" var="listcount"/>Number
+	<apex:repeat value="{!fieldNames}" var="header">
+        <apex:variable value="{!listcount+1}" var="listcount"/>,{!header}
+    </apex:repeat>
+	<apex:repeat value="{!resultList}" var="item">
+{!counter}
+        <apex:variable value="{!0}" var="counter2"/>
+	<apex:repeat value="{!fieldList}" var="field">,
+        <apex:outputPanel layout="none" rendered="{!IF(OR(typeList[counter2]=='DATETIME',typeList[counter2]=='DATE'),true,false)}">
+            <apex:outputText value="{0, date, yyyy-MM-dd HH:mm:ss}">
+                <apex:param value="{!item[field]}" /> 
+            </apex:outputText>
+        </apex:outputPanel>
+        <apex:outputPanel layout="none" rendered="{!IF(AND(typeList[counter2]!='DATETIME',typeList[counter2]!='DATE'),true,false)}">"{!item[field]}"</apex:outputPanel>
+        <apex:variable value="{!IF(counter2<(listcount-2),counter2+1,counter2)}" var="counter2"/>
+        </apex:repeat>
+	<apex:variable value="{!counter+1}" var="counter"/>
+</apex:repeat>
+</apex:page>

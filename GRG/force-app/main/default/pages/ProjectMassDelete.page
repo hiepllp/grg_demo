@@ -1,0 +1,18 @@
+<apex:page standardController="pse__Proj__c" lightningStylesheets="true" extensions="ProjectMassDeleteController">
+
+    <apex:form rendered="{!IF(status == 'Gone', false, true)}">
+        <h1>
+            Confirm that you want to delete the project <b>{!pse__Proj__c.Name}</b> and all related lists.
+        </h1>
+        <br/>
+        <apex:commandbutton title="Delete" value="Delete" action="{!massdelete}"/>
+    </apex:form>
+    <img src="https://i.imgur.com/A2Fr5tr.gif" style="{!IF(status == 'Gone', '', 'display:none;')}"/>
+    <br/>
+    <h2>
+        {!Status}
+        <br/>
+        {!statusMessage}
+    </h2>
+    <a href="/a3B">Back to Project List View</a>
+</apex:page>

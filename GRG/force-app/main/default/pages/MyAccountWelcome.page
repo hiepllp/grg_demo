@@ -1,0 +1,117 @@
+<apex:page controller="MyAccountWelcomeController" >
+<div style="background-color:white;height:490px;width:100%;padding:10px;margin:-10px;">
+<base target="_parent" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Status', 'Count'],
+          ['Paid',     {!InvoicePaid}],
+          ['Unpaid',      {!InvoiceUnpaid}],
+          ['Part Paid',  {!InvoicePartPaid}]
+        ]);
+
+        var options = {
+          is3D: true,
+          title: 'Invoice Status',
+          backgroundColor: { fill:'transparent' },
+          titleTextStyle: { color: 'black',
+                            fontSize: 15,
+                            bold: true},
+          legend: {alignment: 'center', textStyle: {fontSize: 14}}
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+      
+    </script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Status', 'Count'],
+          ['Green',   {!projectsGreen}],
+          ['Yellow',  {!projectsYellow}],
+          ['Red',     {!projectsRed}]
+        ]);
+
+        var options = {
+          is3D: true,
+          legend: {alignment: 'center', textStyle: {fontSize: 14}},
+          title: 'Project Status',
+          backgroundColor: { fill:'transparent' },
+          titleTextStyle: { color: 'black',
+                            fontSize: 15,
+                            bold: true},
+          slices: {
+            0: { color: 'green' },
+            1: { color: 'orange' },
+            2: { color: 'red' }
+          }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_projects'));
+        chart.draw(data, options);
+      }
+      
+    </script>
+    
+    <style>
+        .outer td {
+        vertical-align: middle;
+        }
+        .headerText
+        {
+        text-align: center;
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        }
+        body {
+        background-color: #FFFFFF;
+        }
+    </style>
+
+  <!-- Begin Content -->
+  
+  <p/>
+  <img src="http://www.merlin.ac.uk/highlights/gallery/emerlinlogo.png" style="width: 200px;display: block;margin-left: auto;margin-right: auto;margin-bottom: 10px;"/>
+    <span class="headerText">Welcome to the Merlin Technologies Community! </span>
+
+  <span class="headerText">Welcome {!$User.FirstName}, your MyAccount dashboard is below. </span>
+  <div style="{!IF(AND(InvoicePaid=0,InvoicePartPaid=0,InvoiceUnpaid=0,projectsGreen=0,projectsYellow=0,projectsRed=0),'','display:none')}">
+  <span class="headerText">You dont currently have any information to display. </span>
+  </div>
+    <apex:panelGrid columns="3" style="margin: 0 auto;">
+        <apex:outputPanel >
+            <div id="piechart_3d" style="{!IF(AND(InvoicePaid=0,InvoicePartPaid=0,InvoiceUnpaid=0),'display:none','width: 400px; height: 300px;')}"></div>
+        </apex:outputPanel>
+        <apex:outputPanel style="{!IF(AND(InvoicePartPaid=0,InvoiceUnpaid=0),'display:none','')}">
+            <span style="font-size:15px; font-weight:bold;">Total Outstanding: </span>
+            <apex:outputText value="{0, number, $###,###,##0.00}" style="font-size: 15px">
+                <apex:param value="{!TotalOutstanding}"/>
+            </apex:outputText>
+            <p/>
+            <apex:pageBlock mode="maindetail">
+                <apex:pageBlockTable rows="10" value="{!Invoices}" var="inv" style="border-radius: 10px 0px 0px 0px; height: 25px; font-size: 15px;">
+                    <apex:column headerValue="Invoice Number" headerClass="TableTitle" >
+                        <apex:outputLink value="/apex/ffportal__portalinvoice?filter=all&invoiceid={!inv.Id}&p=1">
+                        {!inv.Name}
+                        </apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Due Date" headerClass="TableTitle" value="{!inv.c2g__DueDate__c}"/>
+                    <apex:column headerValue="Outstanding" headerClass="TableTitle" value="{!inv.c2g__OutstandingValue__c}" style="float:right"/>
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:outputPanel>
+        <apex:outputPanel >
+            <div id="piechart_projects" style="{!IF(AND(projectsGreen=0,projectsYellow=0,projectsRed=0),'display:none','width: 400px; height: 300px;')}"></div>
+        </apex:outputPanel>
+    </apex:panelGrid>
+    </div>
+</apex:page>

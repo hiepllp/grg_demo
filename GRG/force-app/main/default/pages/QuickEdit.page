@@ -1,0 +1,155 @@
+<apex:page controller="QuickEditController" sidebar="false" title="Quick Edit" name="Quick Edit" showHeader="true">  
+    <style>
+    body .pbBody table.list tr.headerRow th {
+    background: #97d2ff;
+    border-width: 0 0 0px 0px;
+    /* border-color: #e0e3e5; */
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 2px 4px 5px;
+}
+body .bRelatedList .pbBody table.list, body .apexp .pbBody table.list {
+    border: 0px solid #e0e3e5;
+}
+body .bPageBlock .pbHeader {
+    background-color: #0096DE;
+    padding: 0;
+    min-width: 1090px;
+}
+.bPageBlock .pbTitle {
+    width: 0px;
+}
+
+body .buttonstyle{
+    margin-left: 10px;
+    background: #0099DE;
+    color: white;
+    border-color: white;
+    font-size: 13px;
+    vertical-align: top;
+    margin-top: 3px;
+}
+
+body .textboxstyle{
+    height: 21px;
+    margin-left: 5px;
+    border: 1px inset;
+    vertical-align: top;
+    margin-top: 3px;
+}
+
+body .pickliststyle{
+    height: 26px;
+    border-radius: 10px;
+    width: 160px;
+    background: white;
+    vertical-align: top;
+    margin-top: 3px;
+}
+    </style>
+<div>
+  <apex:form >
+    <apex:pageBlock mode="maindetail" id="pageBlockContent" >
+    <div style="background-color:#0096DE;">
+      <apex:pageBlockButtons location="top">
+        <img src="http://i.imgur.com/Zyo1F7u.png" style="height: 30px;margin: 0px 16% 0px -45px;"/>
+          <apex:selectList value="{!objectAPI}" size="1" styleClass="pickliststyle" style="margin-top:3px">
+            <apex:actionSupport event="onchange" action="{!loadObject}"/>
+            <apex:selectOptions value="{!ObjectList}"/>
+          </apex:selectList>
+        <!--<input type="button" value="New" onmousedown="buttonpress(this)" onmouseout="hoverOff(this)" onmouseover="hoverOver(this)" class="btn buttonstyle" onclick="window.location='{!IF(objectAPI == 'Contact', URLFOR($Action[objectAPI].NewContact),URLFOR($Action[objectAPI].New))}'"/>-->
+        <apex:commandButton action="{!process}" value="Save Selected" styleClass="buttonstyle" onmouseover="hoverOver(this)" onmouseout="hoverOff(this)" onmousedown="buttonpress(this)"/>
+        <apex:commandButton action="{!processAll}" value="Save All" styleClass="buttonstyle" rendered="false"/>
+        
+        <apex:actionFunction action="{!filterObject}" name="sort"/>
+        
+        <!--I am not happy with the filtering functionality atm so i have not included this on the UI -->
+        <!--<apex:commandButton action="{!filterObject}" value="Filter" style="margin-left:10px" styleClass="buttonstyle" onmouseover="hoverOver(this)" onmouseout="hoverOff(this)" onmousedown="buttonpress(this)"/>
+        <apex:inputtext value="{!objectFILTER}" html-placeholder="e.g. WHERE Name = 'California'" styleClass="textboxstyle" id="filterField" onkeyup="Expand(this);" size="30"/>-->
+        <apex:inputtext value="{!objectORDER}" id="orderField" style="display:none;" />
+        <apex:commandButton title="Last Page" action="{!last}" rendered="{!hasNext}" value="⇥" style="float:right" styleClass="buttonstyle" onmouseover="hoverOver(this)" onmouseout="hoverOff(this)" onmousedown="buttonpress(this)"/>
+        <apex:commandButton title="Next Page" action="{!next}" rendered="{!hasNext}" value="→" style="float:right" styleClass="buttonstyle" onmouseover="hoverOver(this)" onmouseout="hoverOff(this)" onmousedown="buttonpress(this)"/>
+        <apex:commandButton title="Previous Page" action="{!previous}" rendered="{!hasPrevious}" value="←" style="float:right" styleClass="buttonstyle" onmouseover="hoverOver(this)" onmouseout="hoverOff(this)" onmousedown="buttonpress(this)"/>
+        <apex:commandButton title="First Page" action="{!first}" rendered="{!hasPrevious}" value="⇤" style="margin-left:10px;float:right" styleClass="buttonstyle" onmouseover="hoverOver(this)" onmouseout="hoverOff(this)" onmousedown="buttonpress(this)"/>
+        <apex:outputText value="Page {!pageNumber} of {!CEILING(count/15)}" style="margin-left:10px;border:0px;float:right;font-size: 14px;margin-top: 8px;color:white;"/>
+      </apex:pageBlockButtons>
+      </div>
+      <apex:pageMessages />
+      
+      <apex:pageBlockSection showHeader="false" columns="1">
+        <apex:pageBlockTable value="{!categories}" var="c" onrowClick="selectRows(this)">
+          <apex:column style="width:15px">
+            <apex:inputcheckbox value="{!c.checked}" id="marked"/>
+          </apex:column>
+          <apex:column style="width:25px">
+            <apex:outputLink value="/{!c.cat.Id}" target="_blank">Open</apex:outputLink>
+          </apex:column>
+          <apex:repeat value="{!FieldsList}" var="FL" first="0">
+            <apex:column >
+                <apex:facet name="header">
+                    <apex:outputLabel value="{!$ObjectType[ObjectAPI].fields[FL].Label + IF(CONTAINS(objectORDER,FL),IF(CONTAINS(objectORDER,'DESC'),'▼','▲'),'')}" onclick="sortColumn(this)" title="{!FL}" style="cursor: pointer;"/>
+                </apex:facet>
+                <apex:inputField value="{!c.cat[FL]}"/>
+            </apex:column>
+          </apex:repeat>
+        </apex:pageBlockTable>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+  </apex:form>
+  </div>
+  
+    <script type="text/javascript">                
+        var lastElem = [15];
+        <!--This function is used to sort the columns using another hidden variable -->
+        function sortColumn(elem) {
+            if(document.getElementById("j_id0:j_id2:pageBlockContent:j_id4:orderField").value == " ORDER BY " + elem.title)
+            {
+            document.getElementById("j_id0:j_id2:pageBlockContent:j_id4:orderField").value = " ORDER BY " + elem.title + ' DESC';
+            sort();
+            }
+            else
+            {
+            document.getElementById("j_id0:j_id2:pageBlockContent:j_id4:orderField").value = " ORDER BY " + elem.title;
+            sort();
+            }
+        }
+        <!--This function is used to mark the checkboxes -->
+        function selectRows(elem) {
+           if(document.getElementById("j_id0:j_id2:pageBlockContent:j_id44:j_id45:" + elem.sectionRowIndex + ":marked").checked == true)
+           {
+               lastElem[elem.sectionRowIndex] = true;
+               elem.style.backgroundColor = '#e3f3ff';
+           }
+           else
+           {
+               if(lastElem[elem.sectionRowIndex] == true)
+               {
+                   lastElem[elem.sectionRowIndex] = false;
+                   elem.style.backgroundColor = 'white';
+               }
+               else
+               {
+                   document.getElementById("j_id0:j_id2:pageBlockContent:j_id44:j_id45:" + elem.sectionRowIndex + ":marked").checked = true;
+                   lastElem[elem.sectionRowIndex] = true;
+                   elem.style.backgroundColor = '#e3f3ff';
+               }
+           }
+        }
+     <!--This function extends the filter query box as user types -->
+         function Expand(obj){
+             if (!obj.savesize) obj.savesize=obj.size;
+             obj.size=Math.max(obj.savesize,obj.value.length);
+         }
+         function hoverOver(elem) {
+             elem.style.background = '#06aeff';
+         }
+         function hoverOff(elem) {
+             elem.style.background = '#0096DE';
+         }
+         function buttonpress(elem) {
+             elem.style.background = '#00a3f2';
+         }
+         
+    </script>
+</apex:page>

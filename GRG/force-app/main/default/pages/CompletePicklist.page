@@ -1,0 +1,2 @@
+<apex:page standardcontroller="SCMC__Picklist__c" extensions="PicklistConfirmController" action="{!complete}">
+</apex:page>

@@ -1,0 +1,5 @@
+<apex:page >
+    <!--<apex:iframe src="{!'https://grg200210.builder.salesforce-communities.com/apex/AQ_Warehouse'}" />-->
+    <!--<apex:iframe src="{!'https://grg200210.lightning.force.com/apex/DashboardComponent1'}" />-->
+    <apex:image id="mystock" value="{!URLFOR($Resource.Archive, 'mystock.png')}" width="849" height="305" alt="My Stock"/>
+</apex:page>

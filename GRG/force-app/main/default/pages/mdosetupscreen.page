@@ -1,0 +1,55 @@
+<apex:page controller="MDOScriptsRemote">
+    <apex:stylesheet value="{!URLFOR($Resource.MDOStyleSheet, '/SetupScripts/web/jquery/css/cupertino/jquery-ui.min.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.MDOStyleSheet, '/SetupScripts/web/css/MDOstyle.css')}"/>
+
+    <!--Load the static resources beforehand to improve performance-->
+    <div hidden="true">
+    <img src="/resource/MDOSetupImages/compileAllClasses.png"/>
+    <img src="/resource/MDOSetupImages/CareetSiteActivate.png"/>
+    <img src="/resource/MDOSetupImages/CareerSiteURL.png"/>
+    </div>
+<img id="loading" src="http://i.imgur.com/lPzp7Wd.gif" style="position: fixed; width: 400px; height: 200px; left:50%; top:50%; margin-left: -200px; margin-top: -100px; border-radius: 80px;z-index: 1;display: none;"/>
+<span id="loadingtext" style="position: fixed; left: 50%; top: 50%; margin-left: -29px;margin-top: 63px;   border-radius: 80px; z-index: 120; display: none; };color: white;font-size: 17px;">Loading</span>
+
+<div id="dialog-box" Title="Alert">
+    <span id="dialog-message"/>
+</div>
+
+<apex:form >
+    <div id="commission-run-selection" class="ff-form">
+        <div class="ff-formtitle">Required Demo Org Setup</div>
+        <div>
+            <table class="selection-table">
+            </table>
+            <div class="btn-bar">
+                <button class="ff-btn" id="btn-chain-1" type="button">Begin Configuration</button>
+                <button class="ff-btn" id="btn-rebuildapex-1" type="button">Rebuild Apex Classes</button>
+                <button class="ff-btn" id="btn-careersite-1" type="button">HCM Career Site</button>
+                <a href="/apex/quickedit" target="_blank"><button class="ff-btn" id="btn-quickedit-1" type="button">Quick Edit</button></a>
+                <button class="ff-btn" id="btn-licenseExtension-1" type="button">Extend Licenses</button>
+                <button class="ff-btn" id="btn-removetab-1" type="button">Remove Tab</button>
+            </div>
+        </div>
+    </div>
+    <br/> 
+    <br/>
+    <div id="recent-batches-view" class="ff-form">
+        <div class="ff-formtitle">Recent and In Progress Batches (Refreshes every 5 seconds)</div>
+        <div>
+            <table class="selection-table">
+            </table>
+
+            <c:BatchJobsStatus id="jobs" totalJobs="8"/>
+        </div>
+    </div>
+    </apex:form>
+    <script src="{!URLFOR($Resource.MDOStyleSheet, '/SetupScripts/web/jquery/js/jquery-1.11.2.min.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.MDOStyleSheet, '/SetupScripts/web/jquery/js/jquery-ui.min.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.MDOStyleSheet, '/SetupScripts/web/js/MDOJava.js')}" type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            FF.setup("{!URLFOR($Resource.MDOStyleSheet, '/TrialScripts/web/')}");
+        });
+        
+    </script>
+</apex:page>

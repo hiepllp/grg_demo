@@ -1,0 +1,62 @@
+<apex:page lightningStylesheets="true" standardStylesheets="false" applyBodyTag="false" docType="html-5.0" controller="RoleRenameController" showHeader="true">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta http-equiv="x-ua-compatible" content="ie=edge" />
+          <title>Resource Role Renamer</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+          <!-- Import the Design System style sheet -->
+          <apex:slds />
+      </head>
+      <body>
+          
+        <div id="loadingImage" style="display:none;">
+            <div>
+                <img id="loading" src="http://i.imgur.com/lPzp7Wd.gif" style="position: fixed; width: 400px; height: 200px; left:50%; top:50%; margin-left: -200px; margin-top: -100px; border-radius: 80px;z-index: 1;"/>
+                <span id="loadingtext" style="position: fixed; left: 50%; top: 50%; margin-left: -29px;margin-top: 63px; border-radius: 80px; z-index: 120;color: white;font-size: 17px;">Loading</span>
+            </div>
+        </div>
+
+        <!-- REQUIRED SLDS WRAPPER -->
+        <div class="slds-scope">
+            <div class="slds-tabs--scoped">
+                <ul class="slds-tabs--scoped__nav" role="tablist">
+                    <li id="Configuration_tab" class="slds-tabs--scoped__item slds-active" title="Role Replacer" role="presentation">
+                        <a class="slds-tabs--scoped__link" href="javascript:functiontab1()" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item">Role Replacer</a>
+                    </li>
+                </ul>
+                <div id="tab-scoped-1" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
+                    <apex:pageMessages />
+                    <h3 class="slds-section__title">Use the tool below to rename (and add) the resource roles across Contacts, Assignments, Resource Requests, Project Task Assignments, Rate Cards, Expense Limits and Utilization Summary records.</h3>
+                    <br/>
+                		<apex:form style="display: inline-block;">
+                                <table>
+                            <tr>
+                          		<td>
+                          			<apex:outputText value="Old Value:" style="margin:5px;"/>
+                              	</td>
+                              	<td>
+                                	<apex:selectList value="{!oldvalue}" size="1" style="margin:5px;">
+                          	  			<apex:selectOptions value="{!ValueList}"/>
+                      	  			</apex:selectList>
+                              	</td>
+                          	</tr>
+                          	<tr>
+                            	<td>
+                                    <apex:outputText value="Replacement/New:" style="margin:5px;"/>
+                                </td>
+                                <td>
+                          			<apex:inputText value="{!newvalue}" style="margin:5px;"/>
+                                </td>
+                            </tr>
+                            </table>
+                          <apex:commandButton styleClass="slds-button slds-button--brand" action="{!updateAllPicklists}" title="Replace" value="Replace"/>
+                          <apex:commandButton styleClass="slds-button slds-button--brand" action="{!addnewPicklist}" title="Add New" value="Add New"/>
+                      </apex:form>
+                  </div>
+              </div>
+          </div>
+        </body>
+	</html>
+</apex:page>

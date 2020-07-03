@@ -1,0 +1,89 @@
+<apex:page standardStylesheets="false" applyBodyTag="false" docType="html-5.0" controller="DSSReportingWizardValueController" cache="false">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta http-equiv="x-ua-compatible" content="ie=edge" />
+          <title>DSS Reporting Wizard (BETA)</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+          <!-- Import the Design System style sheet -->
+          <apex:slds />
+      </head>
+      <body>
+          <div id="loadingImage" style="display:none;">
+              <div>
+                  <img id="loading" src="http://i.imgur.com/lPzp7Wd.gif" style="position: fixed; width: 400px; height: 200px; left:50%; top:50%; margin-left: -200px; margin-top: -100px; border-radius: 80px;z-index: 1;"/>
+                  <span id="loadingtext" style="position: fixed; left: 50%; top: 50%; margin-left: -29px;margin-top: 63px; border-radius: 80px; z-index: 120;color: white;font-size: 17px;">Loading</span>
+              </div>
+          </div>
+
+        <!-- REQUIRED SLDS WRAPPER -->
+        <div class="slds-scope">
+            <div class="slds-tabs--scoped">
+                <ul class="slds-tabs--scoped__nav" role="tablist">
+                    <li id="Configuration_tab" class="slds-tabs--scoped__item slds-active" title="DSS Reporting Wizard" role="presentation">
+                        <a class="slds-tabs--scoped__link" href="javascript:functiontab1()" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item">DSS Reporting Wizard (PILOT)</a>
+                    </li>
+                </ul>
+                <div id="tab-scoped-1" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
+                    <apex:pageMessages />
+                    <h2>This part of the tool allows you to quickly rename and reorder the columns on your final report. It is optional but recommended.</h2>
+                    <apex:form >
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+              <thead>
+                <tr class="slds-text-title--caps">
+                  <th scope="col">
+                    <div class="slds-truncate" title="Column Name">Column Name</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Type">Type</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Position">Position</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="API Name">API Name</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+                          <apex:repeat value="{!Values}" var="rv">
+                              <tr>
+                                  <td data-label="Name">
+                                      <div class="slds-truncate">
+                                          <apex:inputfield value="{!rv.Name}"/>
+                                      </div>
+                                  </td>
+                                  <td data-label="Type">
+                                      <div class="slds-truncate">
+                                          <apex:inputfield value="{!rv.ffr__Type__c}"/>
+                                      </div>
+                                  </td>
+                                  <td data-label="Position">
+                                      <div class="slds-truncate">
+                                          <apex:inputfield value="{!rv.ffr__TemplateKey__c}"/>
+                                      </div>
+                                  </td>
+                                  <td data-label="API Name">
+                                      <div class="slds-truncate">
+                                          <apex:outputfield value="{!rv.ffr__FieldName__c}"/>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </apex:repeat>
+                          <br/>
+                </tbody>
+                    </table>
+                        <apex:commandButton action="{!Save}" value="Save" title="Save" style="margin:10px;"/>
+                        <apex:commandButton action="{!renamePrompts}" value="Rename Prompts" title="Rename Prompts" style="margin:10px;" rendered="{!IF(promptcount>0,true,false)}"/>
+                        <apex:commandButton action="{!viewReport}" value="View Report" title="View Report" style="margin:10px;"/>
+                    </apex:form>
+                    <br/>
+                  </div>
+                    <br/>
+                    <h2 style="font-size:10px;">Due to the quantity of different reports possible, we anticipate errors to occur during Beta testing. Any problems with this tool should be reported to mbyrne@financialforce.com let me know the report type used, and the columns on your report in as much detail as possible. Ideally login details or screenshots so that the error can be replicated and solution found. Also use this email to submit enhancements.</h2>
+              </div>
+          </div>
+        </body>
+    </html>
+</apex:page>

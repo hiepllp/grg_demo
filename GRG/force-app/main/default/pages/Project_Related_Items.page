@@ -1,0 +1,51 @@
+<apex:page standardController="pse__Proj__c" showHeader="true" docType="html-4.01-strict">
+<div id="tabstrip" style="display:none;"> <ul> 
+<li class="k-state-active">Milestones</li>
+<li>Issues</li>
+<li>Risks</li>
+<li>Budgets</li>
+</ul>
+<!-- Pse  Milestones -->
+<div style="overflow:hidden;"> 
+<CRMC_PP:Grid ObjectName="pse__Milestone__c" FKName="pse__Project__c" FKValue="{!pse__Proj__c.Id}"  DelayLoad="false"  ViewID="" 
+ EnableNewButton="true"  EnableNewInline="true"  EnableEdit="true"  EnableActions="true"  EnableFieldChooser="true" 
+ EnableStickyViews="true"  EnableToolbar="true"  EnableViews="true"  EnableFormatting="true"  EnableReadingPane="true" />
+ <CRMC_PP:DrillUp /> 
+ </div>
+
+<!-- Pse  Issues -->
+<div style="overflow:hidden;"> 
+<CRMC_PP:Grid ObjectName="pse__Issue__c" FKName="pse__Project__c" FKValue="{!pse__Proj__c.Id}"  DelayLoad="true"  ViewID="" 
+ EnableNewButton="true"  EnableNewInline="true"  EnableEdit="true"  EnableActions="true"  EnableFieldChooser="true" 
+ EnableStickyViews="true"  EnableToolbar="true"  EnableViews="true"  EnableFormatting="true"  EnableReadingPane="true" />
+ <CRMC_PP:DrillUp /> 
+ </div>
+
+<!-- Pse  Risks -->
+<div style="overflow:hidden;"> 
+<CRMC_PP:Grid ObjectName="pse__Risk__c" FKName="pse__Project__c" FKValue="{!pse__Proj__c.Id}"  DelayLoad="true"  ViewID="" 
+ EnableNewButton="true"  EnableNewInline="true"  EnableEdit="true"  EnableActions="true"  EnableFieldChooser="true" 
+ EnableStickyViews="true"  EnableToolbar="true"  EnableViews="true"  EnableFormatting="true"  EnableReadingPane="true" />
+ <CRMC_PP:DrillUp /> 
+ </div>
+
+<!-- Pse  Budgets -->
+<div style="overflow:hidden;"> 
+<CRMC_PP:Grid ObjectName="pse__Budget__c" FKName="pse__Project__c" FKValue="{!pse__Proj__c.Id}"  DelayLoad="true"  ViewID="" 
+ EnableNewButton="true"  EnableNewInline="true"  EnableEdit="true"  EnableActions="true"  EnableFieldChooser="true" 
+ EnableStickyViews="true"  EnableToolbar="true"  EnableViews="true"  EnableFormatting="true"  EnableReadingPane="true" />
+ <CRMC_PP:DrillUp /> 
+ </div>
+
+</div>
+<script>
+$(document).ready(function() {
+    $("#tabstrip").kendoTabStrip({
+      activate: function(e){
+        setTimeout(function(){          $(window).resize();        });
+      }
+    });
+    $("#tabstrip").css("display", "block");
+});
+ </script>
+</apex:page>

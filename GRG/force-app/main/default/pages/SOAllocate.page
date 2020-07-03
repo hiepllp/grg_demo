@@ -1,0 +1,2 @@
+<apex:page standardcontroller="SCMC__Sales_Order__c" extensions="SOAllocateController" action="{!allocateAndApprove}">
+</apex:page>

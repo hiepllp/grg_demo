@@ -1,0 +1,2 @@
+<apex:page standardController="pse__Expense__c" action="/a2r/e">
+</apex:page>

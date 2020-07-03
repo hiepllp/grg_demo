@@ -1,0 +1,465 @@
+<apex:page standardStylesheets="false" lightningStylesheets="true" applyBodyTag="false" docType="html-5.0" controller="DemoSetupController" showHeader="true">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>MDO Demo Setup Page</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            
+            <!-- Import the Design System style sheet -->
+            <apex:slds />
+        </head>
+        <body>
+            
+            <div id="loadingImage" style="display:none;">
+                <div>
+                    <img id="loading" src="{!loadingimage}" style="position: fixed; width: 400px; height: 200px; left:50%; top:50%; margin-left: -200px; margin-top: -100px; border-radius: 80px;z-index: 1;"/>
+                </div>
+            </div>
+            
+            <!-- REQUIRED SLDS WRAPPER -->
+            
+            <div class="slds-scope">
+                <div class="slds-tabs--scoped">
+                    <ul class="slds-tabs--scoped__nav" role="tablist">
+                        <!--4 tabs across the top -->
+                        <li id="Configuration_tab" class="slds-tabs--scoped__item slds-active" title="Configuration" role="presentation">
+                            <a class="slds-tabs--scoped__link" href="" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item">Configuration</a>
+                        </li>
+                        <li id="RFP_Central_tab" class="slds-tabs--scoped__item" title="RFP Central" role="presentation">
+                            <a class="slds-tabs--scoped__link" href="https://drive.google.com/drive/folders/0B33mCzHX8LMHOWxESHdwVTVSZGM" role="tab" tabindex="-1" aria-selected="false" >Central Library</a>
+                        </li>
+                        <li id="Bundles_tab" class="slds-tabs--scoped__item" title="Bundles" role="presentation">
+                            <a class="slds-tabs--scoped__link" href="/one/one.app#/alohaRedirect/apex/c__DemoSetupBundles" role="tab" tabindex="-1" aria-selected="false">Bundles</a>
+                        </li>
+                        <li id="Knowledge_tab" class="slds-tabs--scoped__item" title="Bundles" role="presentation">
+                            <a class="slds-tabs--scoped__link" href="https://drive.google.com/drive/folders/0Byf21xMv54oYVExLT3VzWkJjMkU" role="tab" tabindex="-1" aria-selected="false" >MDO Knowledge Library</a>
+                        </li>
+                    </ul>
+                    <!--Configuration tab across the top -->
+                    <div id="tab-scoped-1" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
+                        <h3 class="slds-section__title" style="{!IF(messageType == 'SUCCESS','background-color: #50c878;color: white;text-align: center;display: block;padding: 5px;',IF(messageType == 'ERROR','background-color: #e6003a;color: white;text-align: center;display: block;padding: 5px;','display:none;'))}">
+                            {!messageType} {!pagemessage}
+                        </h3>
+                        <!--error message if licenses expired -->
+                        <h3 class="slds-section__title" style="{!IF(expiredlicenses >0,'background-color: #e6003a;color: white;text-align: center;display: block;padding: 5px;','display:none;')}">
+                            {!expiredlicenses} packages in your org have expired.&nbsp;<a href="/0A3" target="_blank" style="color:white"> show me</a>
+                        </h3>
+                        <h3 class="slds-section__title" style="{!IF(expiredlicenses > 0,'color:red','display:none')}">{!expiredlicenses} packages in your org have or are about to expire.&nbsp;<a href="/0A3" target="_blank"> show me</a></h3>
+                        <br/>
+                        <!--configure org button start -->
+                        <a style="color:white;text-decoration:none;" href="javascript:configureDialogueOpen()">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/custom/custom108_120.png" style="width:30px;"/>
+                                Configure Org
+                            </button>
+                        </a>
+                        <!--configure org button end -->
+                        <a style="color:white;text-decoration:none;" href="javascript:RebuildDialogueOpen()">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/custom/custom95_120.png" style="width:30px;"/>
+                                Rebuild Apex Classes
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" href="javascript:ExtendLicensesDialogueOpen()">
+                            <button style="margin: 10px;padding-left: 10px;background-color: #d20007;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/action/new_task_120.png" style="width: 19px;margin: 0px 10px 0px 6px;"/>
+                                Extend Licenses
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" href="javascript:CommunityDialogueOpen()">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/custom/custom68_120.png" style="width:30px;"/>
+                                Community Setup
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" href="javascript:CongaStepsDialogueOpen()">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/standard/report_120.png" style="width:30px;"/>
+                                Conga Setup
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" target="_blank" href="/one/one.app#/alohaRedirect/apex/quickedit">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/custom/custom18_120.png" style="width:30px;"/>
+                                Quick Edit
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" target="_blank" href="/one/one.app#/alohaRedirect/apex/RoleRenamer">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/action/user_120.png" style="width:20px;"/>
+                                Resource Role Renamer
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" target="_blank" href="/one/one.app#/alohaRedirect/apex/c__DSSReportingWizard">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/custom/custom62_120.png" style="width:30px;"/>
+                                DSS Reporting Wizard
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" href="javascript:RemoveTabDialogueOpen()">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/action/remove_relationship_120.png" style="width: 19px;margin: 0px 10px 0px 6px;"/>
+                                Remove tab
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" href="javascript:CustomizationDialogueOpen()">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/custom/custom57_120.png" style="width: 28px;margin: 0px 3px 0px -2px;"/>
+                                Disable Customizations
+                            </button>
+                        </a>
+                        <a style="color:white;text-decoration:none;" target="_blank" href="https://goo.gl/Qzh0vl">
+                            <button style="margin: 10px;padding-left: 10px;" class="slds-button slds-button--brand ">
+                                <img src="/resource/salesforce_icons/custom/custom112_120.png" style="width: 30px;"/>
+                                Demo Solutions and Support
+                            </button>
+                        </a>  
+                        <apex:form style="display: inline-block;">
+                            <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!populateSource}" title="Ready the Trial" value="Ready the Trial" rendered="{!IF($User.Email = 'sydneyadmin@financialforce.com',true,false)}"/>
+                            <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!deleteReportingBalances}" title="Delete Reporting Balances" value="Delete Reporting Balances" rendered="{!IF($User.Email = 'sydneyadmin@financialforce.com',true,false)}"/>
+                            <apex:outputLink onclick="closeAll();" styleClass="slds-button slds-button--brand" title="Configuration Migration" value="/apex/ConfigurationMigration" rendered="{!IF($User.Email = 'sydneyadmin@financialforce.com',true,false)}">Configuration Migration</apex:outputLink>
+                        </apex:form>
+                        <br/>
+                        <h3 class="slds-section__title">Latest Updates in this Copy of the MDO <a target="_blank" href="/aIm" style="font-size:12px;padding-left: 10px;"> (See All)</a></h3>
+                        <br/>
+                        <!--table of updates start -->
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                            <thead>
+                                <tr class="slds-text-title--caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Date">Date</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Description">Description</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="updateList">
+                            </tbody>
+                        </table>
+                        <!--table of updates end -->
+                    </div>
+                </div>
+                
+                <!--configure org button popup start -->
+                <div id="Configure_Modal" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                                <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="header43" class="slds-text-heading--medium">Configuring your org</h2>
+                        </div>
+                        <div class="slds-modal__content slds-text-longform" style="padding: 10px;">
+                            This process will:
+                            <ul>
+                                <li>Enable Communities</li>
+                                <li>Fix the Projects and RPGs</li>
+                                <li>Fix Actuals</li>
+                                <li>Update the contact, Bill Lumbergh</li>
+                                <li>Update the depreciation methods</li>
+                                <li>Run a Reporting Balance Update</li>
+                                <li>Fix the Account Drill down</li>
+                                <li>Purge and Rebuild Tax and Currency Exchange</li>
+                                <li>Update the Source Id field of all action view related objects.</li>
+                                <li>Correctly configure all action view related objects.</li>
+                                <li>Populate the Company Logo for printing documents.</li>
+                                <li>Assign Conga Composer License.</li>
+                            </ul>
+                        </div>
+                        <div class="slds-modal__footer">
+                            <a href="javascript:closeAllNoLoad()"><button class="slds-button slds-button--neutral">Cancel</button></a>
+                            <apex:form style="display: inline-block;">
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!runeverything}" title="Configure" value="Configure"/>
+                            </apex:form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="RebuildApex_Modal" role="dialog" tabindex="-1" aria-labelledby="header44" class="slds-modal">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <h2 id="header43" class="slds-text-heading--medium">Rebuild Apex Class</h2>
+                        </div>
+                        <div class="slds-modal__content slds-text-longform" style="padding: 10px;">
+                            This process can be run in order to speed up your org. It only needs to be performed once per org.
+                            <img src="/resource/MDOSetupImages/compileAllClasses.png"/>
+                        </div>
+                        <div class="slds-modal__footer">
+                            <a href="javascript:closeAllNoLoad()">
+                                <button class="slds-button slds-button--neutral">Cancel</button>
+                            </a>
+                            <a style="color:white;" href="/01p" target="_blank">
+                                <button class="slds-button slds-button--brand">Open</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="CongaSteps_Modal" role="dialog" tabindex="-1" aria-labelledby="header44" class="slds-modal">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <h2 id="header43" class="slds-text-heading--medium">Conga Setup</h2>
+                        </div>
+                        <div class="slds-modal__content slds-text-longform" style="padding: 10px;">
+                            Here is a link to the new setup process for Conga Composer:
+                            <a href="https://drive.google.com/open?id=1_oTSBtDLpjc-StrDS8kZi2CMikUjlVrD" target="_blank">Link</a>
+                            <br/>
+                            The provisioning steps for Conga Sign can be found here:
+                            <a href="https://drive.google.com/open?id=1IbuxXdd6sowsZBF-HdlSsdi4uTko-7F5" target="_blank">Link</a>
+                        </div>
+                        <div class="slds-modal__footer">
+                            <a href="javascript:closeAllNoLoad()">
+                                <button class="slds-button slds-button--neutral">Cancel</button>
+                            </a>
+                            <a href="javascript:CongaDialogueOpen()">
+                                <button class="slds-button slds-button--brand" style="margin: 3px;" >Conga Setup Steps</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="Community_Modal" role="dialog" tabindex="-1" aria-labelledby="header44" class="slds-modal">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <h2 id="header43" class="slds-text-heading--medium">Community Setup</h2>
+                        </div>
+                        <div class="slds-modal__content slds-text-longform" style="padding: 10px;">
+                            Due to Trialforce bugs, the Community will not work automatically. Check out the following document for videos on using different processes within the community and the steps to set up. <a target="_blank" href="https://docs.google.com/document/d/1H0TXv2LhY1h4tUXlPt4vKbxjaMs6TbmfXeoymMP9B2c/edit">Direct Link</a>
+                        </div>
+                        <!--<div class="slds-modal__footer">
+                            <apex:form style="display: inline-block;">
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!scheduleCommunityJob}" title="Schedule Jobs" value="Schedule Jobs"/>
+                            </apex:form>
+                            <a href="javascript:closeAllNoLoad()">
+                                <button class="slds-button slds-button--neutral">Close</button>
+                            </a>
+                        </div> -->
+                    </div>
+                </div>              
+                
+                <div id="Removetab_Modal" role="dialog" tabindex="-1" aria-labelledby="header45" class="slds-modal">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <h2 id="header43" class="slds-text-heading--medium">Remove tab</h2>
+                        </div>
+                        <div class="slds-modal__content slds-text-longform" style="padding: 10px;">
+                            This button will allow you to remove this tab so that it cannot be found again.
+                        </div>
+                        <div class="slds-modal__footer">
+                            <a href="javascript:closeAllNoLoad()">
+                                <button class="slds-button slds-button--neutral">Cancel</button>
+                            </a>
+                            <apex:form style="display: inline-block;">
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!removetab}" title="Remove" value="Remove"/>
+                            </apex:form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="Customize_Modal" role="dialog" tabindex="-1" aria-labelledby="header45" class="slds-modal">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <h2 id="header43" class="slds-text-heading--medium">Remove customizations</h2>
+                        </div>
+                        <div class="slds-modal__content slds-text-longform" style="padding: 10px;">
+                            These buttons will allow you turn on/off all custom fields and disable all custom triggers within the org for all users.
+                        </div>
+                        <div class="slds-modal__footer">
+                            <a href="javascript:closeAllNoLoad()">
+                                <button class="slds-button slds-button--neutral">Cancel</button>
+                            </a>
+                            <apex:form style="display: inline-block;">
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!customfieldsOn}" title="Fields - On" value="Custom Fields - On"/>
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!customfieldsOff}" title="Fields - Off" value="Custom Fields - Off"/>
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!triggersOn}" title="Triggers - On" value="Triggers - On"/>
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!triggersOff}" title="Triggers - Off" value="Triggers - Off"/>
+                            </apex:form>
+                        </div>
+                    </div>
+                </div>                
+                <div id="ExtendLicenses_Modal" role="dialog" tabindex="-1" aria-labelledby="header45" class="slds-modal">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <h2 id="header43" class="slds-text-heading--medium">Extend Licenses</h2>
+                        </div>
+                        <div class="slds-modal__content slds-text-longform" style="padding: 10px;">
+                            The button below will allow you to send an email licensing@financialforce.com to extend your financialforce licenses.
+                            <br/>
+                            <br/>
+                            <p>
+                                To extend your <b>Salesforce licenses</b> you will need to create a case via https://partners.salesforce.com/ and ask for it to be extended, listing your organisation id: <b>{!$Organization.Id}</b>. A reminder can be set for 20 days before expiration using the button below.
+                            </p>
+                            <p>
+                                <b>IMPORTANT</b> If you are using Conga you must first activate your Conga account before it can be extended.  Follow the instructions outlined by accessing the Conga Setup Steps below.
+                                                            </p>
+                        </div>
+                        <div class="slds-modal__footer">
+                            <a href="javascript:closeAllNoLoad()">
+                                <button class="slds-button slds-button--neutral" style="margin: 3px;" >Cancel</button>
+                            </a>
+                            <a href="{!googleCalendar}" target="_blank">
+                                <button class="slds-button slds-button--brand">Add to Calendar</button>
+                            </a>
+                            <a href="javascript:CongaDialogueOpen()">
+                                <button class="slds-button slds-button--brand" style="margin: 3px;" >Conga Setup Steps</button>
+                            </a>
+                            
+                            <apex:form style="display: inline-block;">
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!extendSFLicense}" title="SF Reminder" value="SF Reminder"/>
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!extendFFLicense}" title="Extend FinancialForce" value="Extend FinancialForce"/>
+                                <apex:commandButton onclick="closeAll();" styleClass="slds-button slds-button--brand" action="{!extendCongaLicense}" title="Extend Conga" value="Extend Conga"/>
+                            </apex:form>
+                        </div>
+                    </div>
+                </div>
+                <div id="Conga_Modal" role="dialog" tabindex="-1" aria-labelledby="header45" class="slds-modal">
+                    <div class="slds-modal__container" style="width: 85%;">
+                        <div class="slds-modal__header">
+                            <h2 id="header43" class="slds-text-heading--medium">Conga Extend</h2>
+                        </div>
+                        <div class="slds-modal__content slds-text-longform" style="padding: 10px;">
+                            To extend conga licenses perform the below steps then email <br/>
+                            <!-- <b>ffrequests@getconga.com</b> and <b>PartnerLicensing@GetConga.com</b>  -->
+                            <b>congalicenses@financialforce.com</b> along with the org id: <b>{!$Organization.Id}</b> requesting an extension.
+                            <br/>
+                            <br/>
+                            If you are going to demonstrate in CollectionsPlus attaching a Conga SIN template to the reminder, you <b>MUST</b> provision the Conga Batch licenses in your org as part of your org configuration. Send an email to the above address with your Org ID and ask that the Conga Batch licenses be provisioned.
+                            <br/>
+                            <br/>
+                            <apex:image url="https://i.imgur.com/mFPZGro.png" width="300px"/>
+                            <li>Access the <b>Conga Composer Setup tab</b>.</li>
+                            <li>Press the <b>Create Salesforce Token</b> button within the offline access section.</li>
+                            <li>Press <b>Save Changes</b> at the bottom of the page.</li>
+                        </div>
+                        <div class="slds-modal__footer">
+                            <a href="javascript:CongaDialogueClose()">
+                                <button class="slds-button slds-button--neutral" style="margin: 3px;" >Back</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="hiddenbackground" class="slds-backdrop slds-backdrop--close"></div>
+                <!-- / REQUIRED SLDS WRAPPER -->
+                
+            </div>
+            
+        </body>
+    </html>
+    <script type="text/javascript">
+    function configureDialogueOpen(){
+        document.getElementById("Configure_Modal").className = "slds-modal slds-fade-in-open";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--open";
+    }    
+    function RebuildDialogueOpen(){
+        document.getElementById("RebuildApex_Modal").className = "slds-modal slds-fade-in-open";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--open";
+    }    
+    function CommunityDialogueOpen(){
+        document.getElementById("Community_Modal").className = "slds-modal slds-fade-in-open";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--open";
+    }    
+    function RemoveTabDialogueOpen(){
+        document.getElementById("Removetab_Modal").className = "slds-modal slds-fade-in-open";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--open";
+    }
+    function CustomizationDialogueOpen(){
+        document.getElementById("Customize_Modal").className = "slds-modal slds-fade-in-open";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--open";
+    }
+    function ExtendLicensesDialogueOpen(){
+        document.getElementById("ExtendLicenses_Modal").className = "slds-modal slds-fade-in-open";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--open";
+    }   
+    function CongaStepsDialogueOpen(){
+        document.getElementById("CongaSteps_Modal").className = "slds-modal slds-fade-in-open";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--open";
+    }    
+    function CongaDialogueClose(){
+        document.getElementById("Conga_Modal").className = "slds-modal";
+    }
+    function CongaDialogueOpen(){
+        document.getElementById("Conga_Modal").className = "slds-modal slds-fade-in-open";
+    }    
+    function closeAll() {
+        document.getElementById("Conga_Modal").className = "slds-modal";
+        document.getElementById("CongaSteps_Modal").className = "slds-modal";
+        document.getElementById("Community_Modal").className = "slds-modal";
+        document.getElementById("Configure_Modal").className = "slds-modal";
+        document.getElementById("RebuildApex_Modal").className = "slds-modal";
+        document.getElementById("Removetab_Modal").className = "slds-modal";
+        document.getElementById("Customize_Modal").className = "slds-modal";
+        document.getElementById("ExtendLicenses_Modal").className = "slds-modal";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--close";
+        document.getElementById("loadingImage").style.display = "";
+    }
+    function closeAllNoLoad() {
+        document.getElementById("Community_Modal").className = "slds-modal";
+        document.getElementById("CongaSteps_Modal").className = "slds-modal";
+        document.getElementById("Conga_Modal").className = "slds-modal";
+        document.getElementById("Configure_Modal").className = "slds-modal";
+        document.getElementById("RebuildApex_Modal").className = "slds-modal";
+        document.getElementById("Removetab_Modal").className = "slds-modal";
+        document.getElementById("Customize_Modal").className = "slds-modal";
+        document.getElementById("ExtendLicenses_Modal").className = "slds-modal";
+        document.getElementById("hiddenbackground").className = "slds-backdrop slds-backdrop--close";
+    }
+    </script>
+    <!-- Remote Objects definition to set accessible sObjects and fields -->
+    <apex:remoteObjects >
+        <apex:remoteObjectModel name="Org_Updates__c" jsShorthand="OrgUpdates" 
+                                fields="Name,Id">
+            <apex:remoteObjectField name="Description__c" jsShorthand="Description"/>
+            <apex:remoteObjectField name="Implemented_Date__c" jsShorthand="ImpDate"/>
+        </apex:remoteObjectModel>
+    </apex:remoteObjects>
+    
+    <!-- JavaScript to make Remote Objects calls -->
+    <script>
+    window.onload = function(){
+        // Create a new Remote Object
+        var wh = new SObjectModel.OrgUpdates();
+        
+        // Use the Remote Object to query for 10 update records
+        wh.retrieve({ orderby: [ {Implemented_Date__c: 'DESC'} ],limit: 10 }, function(err, records, event){
+            if(err) {
+                alert(err.message);
+            }
+            else {
+                var ul = document.getElementById("updateList");
+                records.forEach(function(record) {
+                    // Build the text for a update line item
+                    const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+                    var nameText = record.get("Name");
+                    var descText = record.get("Description__c");
+                    var d = record.get("Implemented_Date__c");
+                    var dateText = new Date(d);
+                    
+                    // Add the line item to the update list
+                    var tr = document.createElement("tr");
+                    var td1 = document.createElement("td");
+                    td1.setAttribute('data-label', 'Date');
+                    var div1 = document.createElement("div");
+                    div1.setAttribute('class', 'slds-truncate');
+                    div1.appendChild(document.createTextNode(monthNames[dateText.getMonth()] + " " + dateText.getDate() + ", " + dateText.getFullYear()));
+                    td1.appendChild(div1);
+                    tr.appendChild(td1);
+                    
+                    var td2 = document.createElement("td");
+                    td2.setAttribute('data-label', 'Description');
+                    var div2 = document.createElement("div");
+                    div2.setAttribute('class', 'slds-truncate');
+                    div2.appendChild(document.createTextNode(descText));
+                    td2.appendChild(div2);
+                    tr.appendChild(td2);
+                    
+                    ul.appendChild(tr);
+                });
+            }
+        });
+    };
+    </script>
+</apex:page>

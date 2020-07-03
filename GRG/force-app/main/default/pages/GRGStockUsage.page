@@ -1,0 +1,4 @@
+<apex:page standardController="Account" showheader="false" sidebar="false">
+  <apex:iframe src="https://public.tableau.com/views/GRGStockUsage/Sheet1?:embed=y&:showShareOptions=false&:toolbar=false&:display_count=no&:showVizHome=no&Id%20(Account)={! Account.Id }" height="500px" width="100%" scrolling="true">
+  </apex:iframe>
+</apex:page>

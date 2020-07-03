@@ -1,0 +1,548 @@
+<apex:page docType="html-5.0" showHeader="true" sidebar="false" lightningstylesheets="true" standardStylesheets="false">
+  <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Import the Design System style sheet -->
+    <apex:slds />
+    <script>
+      document.body.classList.add("homepage");
+
+
+
+      document.addEventListener("DOMContentLoaded", function (event) {
+        var isMobile = navigator.userAgent.match('(Mobi)') ? true : false;
+
+        console.log('isMobile: ' + isMobile);
+        if (isMobile) {
+          document.body.classList.add("is-mobile");
+          document.getElementById("mobile-div").style.display = "block";
+
+        }
+        else {
+          document.body.classList.add("desktop");
+          document.getElementById("desktop-div").style.display = "block";
+        }
+      });
+
+
+    </script>
+  </head>
+
+  <body>
+
+
+    <div id="desktop-div" style="display :none;">
+      <div class="slds-section slds-is-open">
+        <h3 class="slds-section__title">
+          <button aria-controls="appsContent" aria-expanded="true" class="slds-button slds-section__title-action">
+            <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
+              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+            </svg>
+            <span class="slds-truncate" title="All Apps">Tabs</span>
+          </button>
+        </h3>
+        <div aria-hidden="false" class="slds-section__content" id="appsContent">
+          <div class="slds-assistive-text" id="drag-live-region" aria-live="assertive"></div>
+          <ul class="slds-grid slds-grid_pull-padded slds-wrap">
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-15" title="Accounts">AC</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='/distributor/001/o';">
+                  <a href="/distributor/001/o">Accounts</a>
+                  <p>The primary internal Salesforce org. Used to run our online sales business...
+                    <button aria-describedby="help-0"
+                      class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-0" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-9" title="Action Queues">AQ</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='/distributor/apex/SCMC__AQ_Warehouse?sfdc.tabName=01r2w000000n7pC';">
+                  <a href="/distributor/apex/SCMC__AQ_Warehouse?sfdc.tabName=01r2w000000n7pC">Shipping</a>
+                  <p>Shows the queues of work for each warehouse including shipping and receiving tasks ...
+                    <button aria-describedby="help-1"
+                      class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-1" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-14" title="Sales Order">SO</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='/distributor/a7R?fcf=00B2w000004X9nz';">
+                  <a href="/distributor/a7R?fcf=00B2w000004X9nz">Sales Orders</a>
+                  <p>Displays the Sales Orders</p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-2" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-6" title="Sales Invoices">SI</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='/distributor/a6c?fcf=00B2w000005AXRC';">
+                  <a href="/distributor/a6c?fcf=00B2w000005AXRC">Sales Invoices</a>
+                  <p>Displays the Sales Invoices ...
+                    <br/>
+                    <button aria-describedby="help-3" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-3" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-91" title="Payable Invoices">PI</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='//distributor/a1Z/o';">
+                  <a href="/distributor/a1Z/o">Payable Invoices</a>
+                  <p>Displays the Payable Invoices ...
+                    <br/>
+                    <button aria-describedby="help-4" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-4" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-62" title="Items">I</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='/distributor/a6f?fcf=00B2w000004X9o1';">
+                  <a href="/distributor/a6f?fcf=00B2w000004X9o1">Items</a>
+                  <p>Show items ...
+                    <br/>
+                    <button aria-describedby="help-5" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-5" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-50" title="Cases">C</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='/distributor/500?fcf=00B2w000004X9oE';">
+                  <a href="/distributor/500?fcf=00B2w000004X9oE">Cases</a>
+                  <p>Areas of Focus are used to track ...
+                    <button aria-describedby="help-5" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-5" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-102" title="Reports">R</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='/distributor/00O2w000002Glh5EAC';">
+                  <a href="/distributor/00O2w000002Glh5EAC">Reports</a>
+                  <p>A powerful suite of reporting tools helps you understand and act on your data...
+                    <button aria-describedby="help-5"
+                      class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-5" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-27" title="Dashboard">D</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body" onclick="location.href='/distributor/01Z2w000000gR76EAE';">
+                  <a href="/distributor/01Z2w000000gR76EAE">Dashboard</a>
+                  <p>Shows data from source reports as visual components...
+                    <button aria-describedby="help-5" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-5" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+
+      </div>
+      
+
+
+    </div>
+
+    <div id="mobile-div" style="display :none;">
+      <div class="slds-section slds-is-open">
+        <h3 class="slds-section__title">
+          <button aria-controls="appsContent" aria-expanded="true" class="slds-button slds-section__title-action">
+            <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
+              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+            </svg>
+            <span class="slds-truncate" title="All Apps">Tabs</span>
+          </button>
+        </h3>
+        <div aria-hidden="false" class="slds-section__content" id="appsContent">
+          <div class="slds-assistive-text" id="drag-live-region" aria-live="assertive"></div>
+          <ul class="slds-grid slds-grid_pull-padded slds-wrap">
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-15" title="Accounts">AC</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body">
+                  <a href="/distributor/001/o">Accounts</a>
+                  <p>The primary internal Salesforce org. Used to run our online sales business...
+                    <button aria-describedby="help-0"
+                      class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-0" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-14" title="Sales Order">SO</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body">
+                  <a href="/distributor/a7R/o">Sales Orders</a>
+                  <p>Displays the Sales Orders</p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-2" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-6" title="Sales Invoices">SI</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body">
+                  <a href="/distributor/a13/o">Sales Invoices</a>
+                  <p>Displays the Sales Invoices ...
+                    <br/>
+                    <button aria-describedby="help-3" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-3" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-91" title="Payable Invoices">PI</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body">
+                  <a href="/distributor/a1Z/o">Payable Invoices</a>
+                  <p>Displays the Payable Invoices ...
+                    <br/>
+                    <button aria-describedby="help-4" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-4" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-62" title="Items">I</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body">
+                  <a href="/distributor/a6f/o">Items</a>
+                  <p>Show items ...
+                    <br/>
+                    <button aria-describedby="help-5" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-5" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-50" title="Cases">C</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body">
+                  <a href="/distributor/500/o">Cases</a>
+                  <p>Areas of Focus are used to track ...
+                    <button aria-describedby="help-5" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-5" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-102" title="Reports">R</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body">
+                  <a href="/distributor/00O/o">Reports</a>
+                  <p>A powerful suite of reporting tools helps you understand and act on your data...
+                    <button aria-describedby="help-5"
+                      class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-5" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-3">
+              <div draggable="true" class="slds-app-launcher__tile slds-text-link_reset slds-is-draggable">
+                <div class="slds-app-launcher__tile-figure">
+                  <span class="slds-avatar slds-avatar_large">
+                    <abbr class="slds-avatar__initials slds-icon-custom-27" title="Dashboard">D</abbr>
+                  </span>
+                  <div class="slds-m-top_xxx-small">
+                    <button class="slds-button slds-button_icon" aria-pressed="false" title="Reorder">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#rows"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Reorder</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="slds-app-launcher__tile-body">
+                  <a href="/distributor/01Z/o">Dashboard</a>
+                  <p>Shows data from source reports as visual components...
+                    <button aria-describedby="help-5" class="slds-button slds-button_reset slds-text-link">More</button>
+                  </p>
+                  <div class="slds-popover slds-popover_tooltip slds-nubbin_top slds-hide" role="tooltip" id="help-5" style="position:absolute;top:100px;left:165px">
+                    <div class="slds-popover__body"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+
+      </div>
+      
+
+
+    </div>
+    <article class="slds-card">
+      <div class="slds-card__body slds-card__body_inner" style="pointer-events: none;">
+        <apex:iframe src="/ndashboard/s/"> </apex:iframe>
+      </div>
+      <footer class="slds-card__footer">
+        <a class="slds-card__footer-action" href="/distributor/01Z/o">View All
+          <span class="slds-assistive-text">Dashboard</span>
+        </a>
+      </footer>
+    </article>
+  </body>
+
+  </html>
+</apex:page>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>34.0</apiVersion>
+    <availableInTouch>true</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>AG_pse__Milestone__c;AG_pse__Issue__c;AG_pse__Risk__c;AG_pse__Budget__c
+Shows related items of the project</description>
+    <label>Project Related Items</label>
+    <packageVersions>
+        <majorNumber>1</majorNumber>
+        <minorNumber>109</minorNumber>
+        <namespace>CRMC_PP</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>2018</majorNumber>
+        <minorNumber>403</minorNumber>
+        <namespace>pse</namespace>
+    </packageVersions>
+</ApexPage>

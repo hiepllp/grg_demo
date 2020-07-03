@@ -1,0 +1,52 @@
+<apex:page standardController="c2g__codaInvoice__c">
+    <script src="/soap/ajax/31.0/apex.js"> </script >
+    <script src="/soap/ajax/31.0/connection.js"> </script >
+    <script src="/js/functions.js"> </script >
+    <script src="/resource/ChargentBase__jQuery/jquery-ui/js/jquery-1.9.1.js"> </script >
+    <script src="/resource/ChargentBase__jQuery/jquery-ui/js/jquery-ui-1.10.3.custom.js"> </script >
+    <script src="/resource/ChargentBase__jQuery/jquery-ui/js/jquery-ui-1.10.3.custom.min.js"> </script >
+
+
+    <script>
+
+function createPaymentDialog() { 
+sd = new SimpleDialog("PaymentDialog", true); 
+sd.setWidth(455); 
+sd.setTitle('<a title="Close" tabindex="0" onclick="window.parent.sd.cancel();" href="javascript:void(0)" class="dialogClose">Close</a><h2 id="title">Send Payment Request</h2>'); 
+sd.createDialog();	
+window.parent.sd = sd;	
+
+var iframe_url = '{!URLFOR("/apex/ChargentFFA__PaymentRequestModal", null, [objId =c2g__codaInvoice__c.Id,acap=false])}'; 
+
+
+sd.setContentInnerHTML('<iframe id="iframeContentId" src="' + iframe_url + '" frameborder="0" height="260" width="410" marginheight="0" marginwidth="0" align="center" scrolling="no" style="overflow-y: hidden !important; overflow-x: hidden !important;" />'); 
+} 
+
+function setElements() { 
+try{ 
+document.getElementById("PaymentDialogContent").style.padding = "20px"; 
+document.getElementById("PaymentDialogContent").style.overflowY = "hidden"; 
+document.getElementById("PaymentDialogContent").style.overflowX = "hidden"; 
+document.getElementsByClassName("middle")[0].style.background = '#aaa'; 
+document.getElementsByClassName("middle")[1].style.background = '#aaa'; 
+document.getElementsByClassName("middle")[1].style.borderBottomRightRadius= '10px'; 
+document.getElementsByClassName("middle")[1].style.borderBottomLeftRadius= '10px'; 
+document.getElementsByClassName("bottomRight")[1].style.display = 'none'; 
+document.getElementById('PaymentDialog').style.overflow = "auto"; 
+} catch(e) {} 
+} 
+
+function showPaymentDialog(){	
+if (window.parent.sd == undefined) { 
+createPaymentDialog(); 
+sd.show();	
+} else { 
+window.parent.sd.show(); 
+}	
+
+setElements(); 
+} 
+
+showPaymentDialog();
+    </script>
+</apex:page>

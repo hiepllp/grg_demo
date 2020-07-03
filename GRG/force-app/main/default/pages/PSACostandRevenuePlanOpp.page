@@ -1,0 +1,150 @@
+<apex:page standardController="Opportunity" lightningStylesheets="true" extensions="PSACostAndRevenuePlanOppController" >
+  <style>
+    .rightAlign {
+      text-align : right;
+    }
+  </style>
+  <apex:form >
+    <apex:pagemessages />
+    <apex:outputText style="display:none" value="{!Opportunity.Billing_Type__c}" />
+    <!-- Cost and Revenue per Role Page Block -->
+
+    <apex:pageBlock >
+      <apex:pageBlockTable id="pbt" value="{!costAndRevenuePlanOpp.costsAndRevenuesPerRole}" var="costAndRevenuePerRole">
+        <!-- Role Column -->
+        <apex:column headerValue="Role" value="{!costAndRevenuePerRole.role}" rendered="{!OR(Opportunity.Billing_Type__c='Time and Materials',Opportunity.Billing_Type__c='Multi-Element')}" footerValue="Planned Hours And Estimated Cost and Revenue" />
+        <apex:column headerValue="Role" value="{!costAndRevenuePerRole.role}" rendered="{!Opportunity.Billing_Type__c='Fixed Price'}" footerValue="Planned Hours And Estimated Cost" />
+        <!-- Hours Column -->
+        <apex:column value="{!costAndRevenuePerRole.totalHoursPerRole}" styleClass="rightAlign"
+                        headerValue="Total Hours per Role" headerClass="rightAlign"
+                        footerValue="{!costAndRevenuePlanOpp.totalHours}" footerClass="rightAlign"/>
+        <!-- Cost Column -->
+        <apex:column value="{!costAndRevenuePerRole.costRate}" styleClass="rightAlign"
+                        headerValue="Cost Rate" headerClass="rightAlign"
+                        footerValue="{!costAndRevenuePlanOpp.blendedCostRateTotal}" footerClass="rightAlign"/>
+        <!-- Bill Rate Column -->
+        <apex:column value="{!costAndRevenuePerRole.billRate}" rendered="{!OR(Opportunity.Billing_Type__c='Time and Materials',Opportunity.Billing_Type__c='Multi-Element')}" styleClass="rightAlign"
+                        headerValue="Bill Rate" headerClass="rightAlign"
+                        footerValue="{!costAndRevenuePlanOpp.blendedBillRateTotal}" footerClass="rightAlign"/>
+        <!-- Total Cost Column -->
+        <apex:column styleClass="rightAlign" headerClass="rightAlign" headerValue="Est Cost">
+          <apex:outputPanel layout="block" styleclass="rightAlign">
+            <apex:outputField value="{!costAndRevenuePerRole.cost[dummyFieldName]}"/>
+          </apex:outputPanel>
+          <apex:facet name="footer">
+            <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!costAndRevenuePlanOpp.totalEstimatedCost!=null}">
+              <apex:outputField value="{!costAndRevenuePlanOpp.totalEstimatedCost[dummyFieldName]}"/>
+            </apex:outputPanel>
+          </apex:facet>
+        </apex:column>
+        <!-- Total Revenue Column -->
+        <apex:column styleClass="rightAlign" headerCLass="rightAlign" headerValue="Est Revenue" rendered="{!Opportunity.Billing_Type__c='Time and Materials' || Opportunity.Billing_Type__c='Multi-Element'}">
+          <apex:outputPanel layout="block" styleclass="rightAlign">
+            <apex:outputField value="{!costAndRevenuePerRole.revenue[dummyFieldName]}"/>
+          </apex:outputPanel>
+          <apex:facet name="footer">
+            <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!costAndRevenuePlanOpp.totalEstimatedRevenue[dummyFieldName] != null}">
+              <apex:outputField value="{!costAndRevenuePlanOpp.totalEstimatedRevenue[dummyFieldName]}"/>
+            </apex:outputPanel>
+          </apex:facet>
+        </apex:column>
+      
+    </apex:pageBlockTable>
+   </apex:pageBlock>
+   
+   <!-- Fixed Price Opportunity Line Item Page Block -->
+
+   <apex:pageBlock rendered="{!OR(Opportunity.Billing_Type__c='Fixed Price')}">
+     <apex:pageBlockTable value="{!costAndRevenuePlanOpp.summaryOpportunityLineItems}" var="opli" >
+       <!-- OPLI Name Column -->
+       <apex:column value="{!opli.ProductName__c}" headerValue="Services Product(s)" >
+         <apex:facet name="footer">
+           Estimated Revenue
+         </apex:facet>
+       </apex:column>
+       <!-- OPLI Date Column -->
+       <apex:column value="{!opli.ServiceDate}" styleClass="rightAlign" headerClass="rightAlign" />
+       <!-- OPLI Quantity Column -->
+       <apex:column value="{!opli.Quantity}" styleClass="rightAlign" headerClass="rightAlign" />
+       <!-- OPLI Sales Price Column -->
+       <apex:column value="{!opli.UnitPrice}" styleClass="rightAlign" headerClass="rightAlign" >
+       </apex:column>
+       <!-- OPLI Estimated Revenue Column -->
+       <apex:column value="{!opli.TotalPrice}" styleClass="rightAlign" headerClass="rightAlign" >
+         <apex:facet name="footer">
+           <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!costAndRevenuePlanOpp.totalEstimatedRevenue!=null}">
+             <apex:outputField value="{!costAndRevenuePlanOpp.totalEstimatedRevenue[dummyFieldName]}"/>
+           </apex:outputPanel>
+         </apex:facet>
+       </apex:column>
+
+     </apex:pageBlockTable>
+   </apex:pageBlock>
+      
+  <!-- Hybrid section -->
+   <apex:pageBlock rendered="{!OR(Opportunity.Billing_Type__c='Multi-Element')}">
+     <apex:pageBlockTable value="{!HybridProducts}" var="opli" >
+       <!-- OPLI Name Column -->
+       <apex:column value="{!opli.ProductName__c}" headerValue="Services Product(s)" >
+         <apex:facet name="footer">
+           Estimated Revenue
+         </apex:facet>
+       </apex:column>
+       <!-- OPLI Date Column -->
+       <apex:column value="{!opli.ServiceDate}" styleClass="rightAlign" headerClass="rightAlign" />
+       <!-- OPLI Quantity Column -->
+       <apex:column value="{!opli.Quantity}" styleClass="rightAlign" headerClass="rightAlign" />
+       <!-- OPLI Sales Price Column -->
+       <apex:column value="{!opli.UnitPrice}" styleClass="rightAlign" headerClass="rightAlign" >
+       </apex:column>
+       <!-- OPLI Estimated Revenue Column -->
+       <apex:column value="{!opli.TotalPrice}" styleClass="rightAlign" headerClass="rightAlign" >
+         <apex:facet name="footer">
+           <apex:outputPanel layout="block" styleclass="rightAlign" rendered="{!Opportunity.Fixed_Price_Planned_Revenue__c !=null}">
+             <apex:outputField value="{!Opportunity.Fixed_Price_Planned_Revenue__c}"/>
+           </apex:outputPanel>
+         </apex:facet>
+       </apex:column>
+
+     </apex:pageBlockTable>
+   </apex:pageBlock>
+
+   <!-- Summary field Page Block Section -->
+   
+   <apex:pageBlock mode="maindetail">
+     <apex:pageBlockSection columns="2">
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="{!$ObjectType.Opportunity.fields.Planned_Costs__c.label}" />
+         <apex:outputField value="{!costAndRevenuePlanOpp.totalEstimatedCost[dummyFieldName]}" rendered="{!costAndRevenuePlanOpp.totalEstimatedCost!=null}"/>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="{!$ObjectType.Opportunity.fields.Planned_Margin__c.label}" />
+           <apex:outputText value="{0, number, ###,###,##0.00}" rendered="{!costAndRevenuePlanOpp.plannedMargin!=null}">
+          {!Opportunity.CurrencyIsoCode}<apex:param value="{!costAndRevenuePlanOpp.plannedMargin[dummyFieldName] + IF(Opportunity.Billing_Type__c = 'Multi-Element',costAndRevenuePlanOpp.totalEstimatedRevenue[dummyFieldName],0)}" />
+      </apex:outputText>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="Planned Revenue" />
+            <apex:outputText value="{0, number, ###,###,##0.00}" rendered="{!costAndRevenuePlanOpp.totalEstimatedRevenue!=null}">
+          {!Opportunity.CurrencyIsoCode}<apex:param value="{!costAndRevenuePlanOpp.totalEstimatedRevenue[dummyFieldName] + IF(Opportunity.Billing_Type__c = 'Multi-Element',Opportunity.Fixed_Price_Planned_Revenue__c,0)}" />
+      </apex:outputText>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem rendered="{!Opportunity.Billing_Type__c = 'Multi-Element'}">
+         <apex:outputLabel value="Planned Margin %" />
+            <apex:outputText value="{0, number, ###,###,##0.00%}" rendered="{!(costAndRevenuePlanOpp.totalEstimatedRevenue[dummyFieldName] + Opportunity.Fixed_Price_Planned_Revenue__c)!=null}">
+                <apex:param value="{!(costAndRevenuePlanOpp.plannedMargin[dummyFieldName] + costAndRevenuePlanOpp.totalEstimatedRevenue[dummyFieldName])/(costAndRevenuePlanOpp.totalEstimatedRevenue[dummyFieldName] + Opportunity.Fixed_Price_Planned_Revenue__c)}" />
+      </apex:outputText>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem rendered="{!Opportunity.Billing_Type__c != 'Multi-Element'}">
+         <apex:outputLabel value="{!$ObjectType.Opportunity.fields.Planned_Margin_Pct__c.label}" />
+         <apex:outputField value="{!Opportunity.Planned_Margin_Pct__c}" rendered="{!costAndRevenuePlanOpp.plannedMargin!=null}"/>
+       </apex:pageBlockSectionItem>
+       <apex:pageBlockSectionItem >
+         <apex:outputLabel value="{!$ObjectType.Opportunity.fields.Planned_Hours__c.label}" />
+         <apex:outputField value="{!Opportunity.Planned_Hours__c}" rendered="{!Opportunity.Planned_Hours__c!=null}"/>
+       </apex:pageBlockSectionItem>
+     </apex:pageBlockSection>
+   </apex:pageBlock>
+   
+  </apex:form>
+</apex:page>

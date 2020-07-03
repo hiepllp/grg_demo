@@ -1,0 +1,119 @@
+<apex:page title="{!fferpcore__BillingDocument__c.Name}" standardController="fferpcore__BillingDocument__c" extensions="billingdocumentpdfcontroller" showHeader="false" sidebar="false" renderas="pdf" applyHtmlTag="false" readOnly="true">
+<apex:variable value="{!1}" var="count"/>
+<apex:variable value="" var="type"/>
+	<apex:pageMessages />
+	<div width="100%" style="font-family: sans-serif;">
+        <div style="background-color:#DBEDFF;height:80px">
+            <apex:repeat value="{!docCompany}" var="Comp">
+            	<apex:image url="{!Comp.fferpcore__LogoURL__c}" style="width: 200px;float:right;"/> 
+            </apex:repeat>
+        </div>
+        <hr/>
+        <table width="100%" style="font-size:12px;">
+            <td>
+                <b>{!docAccount.Name}</b><br/>
+                {!docAccount.ShippingStreet}<br/>
+                {!docAccount.ShippingCity}<br/>
+                {!docAccount.ShippingState} {!docAccount.ShippingPostalCode}<br/>
+                {!docAccount.ShippingCountry}<br/>
+            </td>
+            <apex:repeat value="{!docCompany}" var="Comp">
+            <td style="text-align:right">
+                <b>{!Comp.Name}</b><br/>
+                {!Comp.fferpcore__Street__c}<br/>
+                {!Comp.fferpcore__City__c}<br/>
+                {!Comp.fferpcore__State__c} {!Comp.fferpcore__Zip__c}<br/>
+                {!Comp.fferpcore__Country__c}<br/>
+                {!Comp.fferpcore__Website__c}<br/>
+            </td>
+            </apex:repeat>
+        </table>
+        <br/>
+        <span style="font-size:16px;font-weight:bold;color: #287ACC;padding:30px;">INVOICE: {!fferpcore__BillingDocument__c.Name}</span>            
+        <span style="font-size:16px;font-weight:bold;color: #287ACC;padding:20px;">INVOICE DATE: &nbsp;
+            <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                <apex:param value="{!fferpcore__BillingDocument__c.fferpcore__DocumentDate__c}" /> 
+            </apex:outputText>                
+        </span>            
+        <span style="font-size:16px;font-weight:bold;color: #287ACC;padding:20px;">DUE DATE: &nbsp;
+            <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                <apex:param value="{!fferpcore__BillingDocument__c.fferpcore__DocumentDueDate__c}" /> 
+            </apex:outputText>                
+        </span>            
+        <br/>
+        
+        <table width="100%" style="font-size:12px;padding-top:20px">
+            <tr style="background-color:#287ACC;color:white;font-size:13px;padding:2px;font-family: sans-serif;">
+                <th style="padding:4px">Line</th>
+                <th style="padding:4px">Product ID</th>
+                <th style="padding:4px">Description</th>
+                <th style="padding:4px">Quantity</th>
+                <th style="padding:4px">Price</th>
+                <th style="padding:4px">Subtotal</th>
+            </tr>
+            <apex:repeat value="{!docLines}" var="lines">
+                <tr style="{!IF(type == lines.fferpcore__ProductService__r.ffbc__BillingType__c, 'display:none;','background-color:#c2e0ff')}">
+                	<td colspan="6" style="padding:4px">{!lines.fferpcore__ProductService__r.ffbc__BillingType__c}</td>
+                </tr>
+                <tr>
+                	<td style="padding:4px">{!count}</td>
+                	<td style="padding:4px">{!lines.fferpcore__ProductService__r.Name}</td>
+                	<td style="padding:4px">{!lines.fferpcore__ProductService__r.Description}</td>
+                	<td style="padding:4px;text-align:right;">
+                        <apex:outputText value="{0, number, ###,###,##0.00}">
+                            <apex:param value="{!lines.fferpcore__Quantity__c}" /> 
+                        </apex:outputText>
+                    </td>
+                	<td style="padding:4px;text-align:right;">
+                        <apex:outputText value="{0, number, ###,###,##0.00}">
+                            <apex:param value="{!lines.fferpcore__UnitPrice__c}" /> 
+                        </apex:outputText>
+                    </td>
+                	<td style="padding:4px;text-align:right;">
+                        <apex:outputText value="{0, number, ###,###,##0.00}">
+                            <apex:param value="{!lines.fferpcore__NetValue__c}" /> 
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <apex:variable var="count" value="{!count+ 1}"/>
+                <apex:variable var="type" value="{!lines.fferpcore__ProductService__r.ffbc__BillingType__c}"/>
+            </apex:repeat>
+        </table>
+        <br/>
+        <table width="30%" style="float:right;padding-top:30px;">
+            <tr style="font-size:16px;font-weight:bold;color: black;">
+                <td style="padding:4px">TAX</td>
+                <td style="padding:4px;text-align:right;">{!fferpcore__BillingDocument__c.CurrencyIsoCode} 
+                    <apex:outputText value="{0, number, ###,###,##0.00}">
+    					<apex:param value="{!totalTax}" /> 
+					</apex:outputText>
+                </td>
+            </tr>
+            <tr style="font-size:18px;font-weight:bold;color: #287ACC;">
+                <td style="padding:4px">Total</td>
+                <td style="padding:4px;text-align:right;">{!fferpcore__BillingDocument__c.CurrencyIsoCode} 
+                    <apex:outputText value="{0, number, ###,###,##0.00}">
+    					<apex:param value="{!fferpcore__BillingDocument__c.fferpcore__DocumentTotal__c}" /> 
+					</apex:outputText>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" style="font-size:12px;padding-top:100px;">
+            <td style="text-align:right;vertical-align:top">
+                <span style="font-size:14px;font-weight:bold;color: #287ACC;"><b>Other Information</b></span><br/>
+                <br/>
+                Contract ID: {!fferpcore__BillingDocument__c.ffbc__Contract__r.Name}<br/>
+                Contract Date:&nbsp; 
+<apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+    <apex:param value="{!fferpcore__BillingDocument__c.ffbc__Contract__r.ffbc__StartDate__c}" /> 
+</apex:outputText>                
+            </td>
+        </table>    
+        <br/>
+        <br/>
+        <div width="100%" style="text-align: center;">
+        	<span style="font-size:16px;color: black;"><i>THANK YOU FOR YOUR BUSINESS</i></span>
+        </div>
+        <br/>
+    </div>
+</apex:page>

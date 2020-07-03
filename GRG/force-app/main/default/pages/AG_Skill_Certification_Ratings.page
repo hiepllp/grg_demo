@@ -1,0 +1,6 @@
+<apex:page standardController="Contact" showHeader="false" docType="html-4.01-strict">
+<CRMC_PP:Grid ObjectName="pse__Skill_Certification_Rating__c" FKName="pse__Resource__c" FKValue="{!Contact.Id}"  DelayLoad="false"  ViewID="" 
+ EnableNewButton="true"  EnableNewInline="true"  EnableEdit="true"  EnableActions="true"  EnableFieldChooser="true" 
+ EnableStickyViews="true"  EnableToolbar="true"  EnableViews="true"  EnableFormatting="true"  EnableReadingPane="true" />
+<CRMC_PP:DrillUp />
+</apex:page>

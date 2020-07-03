@@ -1,0 +1,317 @@
+<apex:page controller="ItemLocationDetailsController" docType="html-5.0" showHeader="true" sidebar="false" lightningstylesheets="true" standardStylesheets="false">
+    
+    <apex:includeScript value="/support/console/35.0/integration.js"/>
+    <apex:includeScript value="/soap/ajax/35.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/43.0/apex.js"/>
+    
+    <apex:includeScript value="{!URLFOR($Resource.jQuery_3_1_1, '/jquery/jquery-3.1.1.min.js')}"  />
+    <apex:includeScript value="{!URLFOR($Resource.Bootstrap, '/bootstrap/js/bootstrap.min.js')}"  />
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/DataTables-1.10.18/js/jquery.dataTables.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/Buttons-1.5.2/js/dataTables.buttons.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/Buttons-1.5.2/js/buttons.flash.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/JSZip-2.5.0/jszip.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/pdfmake-0.1.36/pdfmake.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/pdfmake-0.1.36/vfs_fonts.js')}" />  
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/Buttons-1.5.2/js/buttons.html5.min.js')}" />         
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/Buttons-1.5.2/js/buttons.print.min.js')}" />    
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/Buttons-1.5.2/js/buttons.colVis.min.js')}" />     
+    <apex:includeScript value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/FixedHeader-3.1.4/js/dataTables.fixedHeader.min.js')}" />     
+    
+    <apex:stylesheet value="{!URLFOR($Resource.Bootstrap, '/bootstrap/css/bootstrap.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/DataTables-1.10.18/css/jquery.dataTables.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/Buttons-1.5.2/css/buttons.dataTables.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.DataTables_1_10_18_Bundle, '/FixedHeader-3.1.4/css/fixedHeader.dataTables.min.css')}" />  
+    
+    <script type="text/javascript" class="init">
+    
+    
+    $(document).ready(function() { 
+        var table = $('table.displaying').DataTable( {
+            "paging": false,
+            "searching": true,
+            "lengthChange": false,
+            dom: '<Bf<rt>i>',
+            buttons: [
+                'copyHtml5',
+                'csvHtml5',
+                {
+                    extend: "print",
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    orientation: 'landscape', 
+                    text: "<span class='glyphicon glyphicon-print'></span> Print",
+                    title: "Jobs Report"
+                },          
+                {
+                    extend: "excelHtml5", 
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    text: "<span class='glyphicon glyphicon-th-list'></span> Excel",
+                    title: "Jobs Report"
+                },
+                {
+                    extend: "pdfHtml5",
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    orientation: 'landscape',
+                    text: "<span class='glyphicon glyphicon-save'></span> PDF", 
+                    title: "Jobs Report"
+                },
+                {
+                    extend: 'colvis',
+                    postfixButtons: [ 'colvisRestore' ]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'Customer 1',
+                    show: [ 1, 6, 7, 8, 9, 10 ],
+                    hide: [ 2, 3, 4, 5, 11 ]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'Show all',
+                    show: ':hidden'
+                }
+            ],
+            fixedHeader: {
+                header: true,
+                footer: false
+            },                   
+        });
+    });
+    
+    
+    </script>  
+    <script type="text/javascript">
+    function redrawTable(){
+        $('#table').DataTable({"destroy" : true}).draw();
+    }
+    function RefreshTable(tableId){
+        
+        var table = $('table.displaying').dataTable;
+        oSettings = table.fnSettings();
+        
+        table.fnClearTable(this);
+        table.fnDraw();
+    });
+    }
+    
+    </script>
+    <style type="text/css">
+        
+        .page-container{
+        margin-right: 40px;
+        margin-left: 40px;
+        margin-bottom: 50px;
+        }
+        
+        .ecl-title h1{
+        color: #0054a4;
+        text-transform: uppercase;
+        }
+        
+        .ecl-panel{
+        border: 1px;
+        border-style: solid;
+        border-color: #91700c;
+        font-size: 10pt;
+        }
+        
+        .ecl-panel-heading{
+        background: #f2ba14;
+        }
+        
+        .ecl-panel-heading-text{
+        color: #FFF;
+        text-transform: uppercase;
+        }            
+        
+        .ecl-link{
+        font-size: 10pt;
+        }
+        .ecl-tfrow{
+        text-align: right;
+        font-weight: bold;
+        }
+        
+        .ecl-tf{
+        padding: 6px 10px 6px 10px !important;
+        }
+        
+        .ecl-th{ 
+        white-space: nowrap; 
+        }     
+           
+    </style>
+    
+    <div class="page-container">   
+        <div class="ecl-title">
+            <h1>Item - Location Details</h1>      
+        </div> 
+        
+        <apex:form id="theForm">    
+            <apex:outputPanel id="searchItem">
+                <div class="panel ecl-panel">
+                    <div class="panel-heading ecl-panel-heading">
+                        <div class="row">
+                            <div class="col-md-1">    
+                                <!-- RELOADING NOT A CLEAN METHOD BUT I COULDNT WORK OUT HOW TO REDRAW THE DATATABLE -->
+                                <apex:commandButton styleClass="btn btn-light form-control col-md-1" value="Lookup Item" onclick="{!item}" oncomplete="window.location.href='/apex/ItemLocationDetails?recordId={!item.id}&showZeroPage={!showZeros}';" />
+                            </div>
+                            <div class="col-md-2">
+                                  <apex:inputField style="height: 25px; margin-top: 4px;" value="{!ipItemLookup.SCMC__Item_Master__c}"/>
+                            </div>
+                            <div class="ecl-panel-heading-text ecl-title col-md-7" style="font-size:large">    
+                                <apex:outputText style="font-size:large">{!item.Name} {!item.SCMC__Item_Description__c}</apex:outputText>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            
+            <div class="panel ecl-panel">
+                <div class="panel-heading ecl-panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="ecl-panel-heading-text">
+                                <div class="col-md-1">    
+                                    <apex:commandButton styleClass="btn btn-light form-control col-md-1" value="Toggle Zeros" action="{!toggleShowZeros}" oncomplete="window.location.href='/apex/ItemLocationDetails?recordId={!item.id}&showZeroPage={!showZeros}';" />
+                                </div>
+                                <h4>Item Details:</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <apex:outputPanel id="filteroptions">
+                    <div class="panel-body">
+                        <div class="row custom-row">
+                            <div class="col-md-2">
+                                <label>{!$ObjectType.SCMC__Item__c.fields.SCMC__Active_Status__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.SCMC__Active_Status__c}"/>
+                            </div>
+                            <div class="col-md-2 required-field-block">    
+                                <label>{!$ObjectType.SCMC__Item__c.fields.SCMC__Item_Type__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.SCMC__Item_Type__c}"/>  
+                            </div> 
+                            <div class="dropdown col-md-2 required-field-block">
+                                <label>{!$ObjectType.SCMC__Item__c.fields.SCMC__Kit__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.SCMC__Kit__c}"/>  
+                            </div>
+                            <div class="col-md-2 required-field-block">
+                                <label>{!$ObjectType.SCMC__Supplier_Site__c.fields.Name.Label}:</label><br/>
+                                <!--<apex:outputField value="{!item.Supplier_Site__r.Name}"/>-->
+                                <apex:outputField value="{!item.Name}"/> 
+                            </div>
+                            <div class="col-md-2">
+                                <!--<label>{!$ObjectType.SCMC__Item__c.fields.Supplier_Item_Number_Default_Supplier__c.Label}:</label><br/>-->
+                                <label>{!$ObjectType.SCMC__Item__c.Name}:</label><br/>
+                                <apex:outputField value="{!item.Name}"/>  
+                            </div>
+                            <!--div class="col-md-2">
+                                <label>{!$ObjectType.SCMC__Item__c.fields.Supplier_Currency__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.Supplier_Currency__c}"/>
+                            </div>-->
+                        </div>
+                        <div class="row custom-row">
+                            <div class="col-md-2">
+                                <!--<label>{!$ObjectType.SCMC__Item__c.fields.Initial_Cost_Price__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.Initial_Cost_Price__c}"/>-->
+                                <label>Primary Sales Price:</label><br/>
+                                <apex:outputField value="{!item.Primary_Sales_Price__c}"/>  
+                            </div>
+                            <div class="col-md-2">   
+                                <!--<label>{!$ObjectType.SCMC__Item__c.fields.Landed_Cost__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.Landed_Cost__c}"/>-->
+                                <label>Landed Cost:</label><br/>
+                                <apex:outputField value="{!item.Primary_Sales_Price__c}"/>  
+                            </div>
+                            <div class="col-md-2">
+                                <!--<label>{!$ObjectType.SCMC__Item__c.fields.Standard_Sell_Price__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.Standard_Sell_Price__c}"/>-->
+                                <label>Standard Sell Price:</label><br/>
+                                <apex:outputField value="{!item.Primary_Sales_Price__c}"/>   
+                            </div>
+                            <div class="col-md-2">
+                                <label>{!$ObjectType.SCMC__Item__c.fields.SCMC__Stocking_UOM__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.SCMC__Stocking_UOM__c}"/>  
+                            </div>
+                            <div class="col-md-2">
+                                <label>{!$ObjectType.SCMC__Item__c.fields.SCMC__Supplier_UOM__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.SCMC__Supplier_UOM__c}"/>  
+                            </div>
+                            <div class="col-md-2">
+                                <label>{!$ObjectType.SCMC__Item__c.fields.SCMC__Conversion_Factor__c.Label}:</label><br/>
+                                <apex:outputField value="{!item.SCMC__Conversion_Factor__c}"/>                                  
+                            </div>
+                        </div>
+                        
+                    </div>
+                </apex:outputPanel>
+            </div>
+            <apex:outputPanel id="pb">
+                <div id="warehouseData">
+                    <table id="table2" class="displaying table table-striped table-hover table-condensed" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Warehouse</th><!-- 1 -->
+                                <th>Total QTY</th><!-- 2 -->
+                                <th>QTY Allocated</th><!-- 3 -->
+                                <th>QTY Backordered</th><!-- 4 -->
+                                <th>QTY Available</th><!-- 5 -->
+                                <th>Location</th><!-- 6 -->
+                                <th>Average Cost</th><!-- 7 -->
+                                <th>Total Cost</th><!-- 8 -->
+                                <th>QTY On Order</th><!-- 10 -->
+                                <th>Min</th><!-- 11 -->
+                                <th>Max</th><!-- 12 -->
+                            </tr>
+                        </thead>                                                      
+                        
+                        <tbody>
+                            <apex:repeat id="myRepeaterTable2" value="{!rcs}" var="rc">
+                               <apex:outputPanel rendered="{!toRender[rc.SCMC__Warehouse__r.Name] || showZeros}">
+                                <tr align="right">
+                                    <td align="left">{!rc.SCMC__Warehouse__r.Name}</td><!-- 1 -->
+                                    <td>{!reorderCriterias[rc.SCMC__Warehouse__r.Name].Total_Quantity_Stored__c}</td><!-- 2 -->
+                                    <td>{!rcAllocated[rc.SCMC__Warehouse__r.Name]}</td><!-- 3 -->
+                                    <td>{!backOrders[rc.SCMC__Warehouse__r.Name]}</td><!-- 4 -->
+                                    <td>{!reorderCriterias[rc.SCMC__Warehouse__r.Name].Quantity_Available__c}</td><!-- 5 -->
+                                    <td align="left">{!reorderCriterias[rc.SCMC__Warehouse__r.Name].Location__c}</td><!-- 6 -->
+                                    <td>{!reorderCriterias[rc.SCMC__Warehouse__r.Name].Average_Cost__c}</td><!-- 7 -->
+                                    <td>{!reorderCriterias[rc.SCMC__Warehouse__r.Name].Total_Sum_Value__c}</td><!-- 8 -->
+                                    <td>{!onOrder[rc.SCMC__Warehouse__r.Name]}</td><!-- 10 -->
+                                    <td>{!reorderCriterias[rc.SCMC__Warehouse__r.Name].Minimum__c}</td><!-- 11 -->
+                                    <td>{!reorderCriterias[rc.SCMC__Warehouse__r.Name].Maximum__c}</td><!-- 12 -->
+                                </tr>
+                                   </apex:outputPanel>
+                            </apex:repeat>
+                        </tbody>
+                        <tfoot>
+                            <tr class="ecl-tfrow">
+                                <td class="ecl-tf" align="left">Total:</td>
+                                <td class="ecl-tf">{!totalQTY}</td>
+                                <td class="ecl-tf">{!totalQTYAllocated}</td>
+                                <td class="ecl-tf">{!totalQTYBackordered}</td>
+                                <td class="ecl-tf">{!totalQTYAvailable}</td>
+                                <td class="ecl-tf"></td>
+                                <td class="ecl-tf">${!totalAverageCost}</td>
+                                <td class="ecl-tf">${!totalCost}</td>
+                                <td class="ecl-tf">{!totalQTYOnOrder}</td>
+                                <td class="ecl-tf"></td>
+                                <td class="ecl-tf"></td>
+                            </tr>
+                        </tfoot> 
+                    </table> 
+                </div>
+            </apex:outputPanel>
+         <br/>
+            <apex:outputtext value="{!NOW()}"/><br/>
+        </apex:form> 
+    </div>
+</apex:page>

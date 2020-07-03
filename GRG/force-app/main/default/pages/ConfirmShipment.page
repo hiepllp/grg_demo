@@ -1,0 +1,3 @@
+<apex:page standardcontroller="SCMC__Shipping__c" extensions="ComfirmShipmentController" action="{!confirm}">
+    
+</apex:page>

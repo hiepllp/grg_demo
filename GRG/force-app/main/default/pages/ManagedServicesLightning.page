@@ -1,0 +1,13 @@
+<apex:page standardController="pse__Proj__c" showQuickActionVfHeader="false" lightningStylesheets="true" extensions="ManagedServicesLightningController">
+    <apex:form >
+        <h3 class="slds-section__title" style="{!IF(status == 'SUCCESS','background-color: #50c878;color: white;text-align: center;display: block;padding: 5px;',IF(status == 'FAIL','background-color: #e6003a;color: white;text-align: center;display: block;padding: 5px;','display:none;'))}">
+            {!status} {!statusMessage}
+        </h3>
+        <span style="{!IF(status == 'SUCCESS','display:none;','font-size: 15px;')}">
+                    Confirm that you want to create Milestones for <b>{!pse__Proj__c.Name}</b> for each month.
+        </span>
+        <br/>
+        <apex:commandbutton title="Create Milestones" value="Create Milestones" action="{!createMonthlyMilestone}" style="{!IF(status == 'SUCCESS','display:none;','float: right;top: 140px;')}"/>
+    </apex:form>
+    <br/>
+</apex:page>
